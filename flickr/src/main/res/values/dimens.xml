@@ -1,0 +1,18 @@
+<resources>
+
+	<dimen name="fab_margin">16dp</dimen>
+
+	<dimen name="card_radius">10dp</dimen>
+
+	<dimen name="small_font_size">12sp</dimen>
+	<dimen name="medium_font_size">16sp</dimen>
+	<dimen name="large_font_size">20sp</dimen>
+
+	<dimen name="small_margin">5dp</dimen>
+	<dimen name="medium_margin">8dp</dimen>
+	<dimen name="large_margin">10dp</dimen>
+	<dimen name="xlarge_margin">15dp</dimen>
+
+	<dimen name="app_bar_height">270dp</dimen>
+
+</resources>

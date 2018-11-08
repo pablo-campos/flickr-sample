@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context=".FlickrActivity">
 
-
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/feedGrid"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="@dimen/small_margin"
+		android:layout_marginBottom="@dimen/small_margin"
+		android:layout_marginStart="@dimen/medium_margin"
+		android:layout_marginEnd="@dimen/medium_margin"/>
 
 </android.support.constraint.ConstraintLayout>
