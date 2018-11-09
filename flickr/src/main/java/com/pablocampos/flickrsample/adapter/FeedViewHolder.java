@@ -10,6 +10,8 @@ import com.bumptech.glide.Glide;
 import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.model.FlickrFeed;
 
+import org.apache.commons.text.WordUtils;
+
 public class FeedViewHolder extends RecyclerView.ViewHolder {
 
 
@@ -19,8 +21,6 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 	private CardView cardView;
 	private ImageView feedImage;
 	private TextView feedTitle;
-	private TextView feedDescription;
-	private TextView feedAuthor;
 
 
 
@@ -32,8 +32,6 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 		cardView.setCardBackgroundColor(v.getContext().getResources().getColor(R.color.cardBackgroundColor));
 		feedImage = v.findViewById(R.id.feed_image);
 		feedTitle = v.findViewById(R.id.feed_title);
-		feedDescription = v.findViewById(R.id.feed_description);
-		feedAuthor = v.findViewById(R.id.feed_author);
 	}
 
 
@@ -50,8 +48,6 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 		Glide.with(cardView.getContext()).load(feed.getMedia().getM()).into(feedImage);
 
 		// Name
-		feedTitle.setText(feed.getTitle());
-		feedDescription.setText(feed.getDescription());
-		feedAuthor.setText(feed.getAuthor());
+		feedTitle.setText(WordUtils.capitalizeFully(feed.getTitle()));
 	}
 }
