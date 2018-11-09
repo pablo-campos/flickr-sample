@@ -5,9 +5,11 @@
 	<color name="colorPrimaryDark">#4E0D3A</color>
 	<color name="colorAccent">#E30425</color>
 
-	<color name="feed_title_text_color">#ffffff</color>
+	<color name="feed_title_text_color">#b8ffffff</color>
 	<color name="global_text_color">#000000</color>
 	<color name="global_link_color">#205bff</color>
 	<color name="cardBackgroundColor">#ffffff</color>
+
+	<color name="black_overlay">#66000000</color>
 
 </resources>

@@ -41,7 +41,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 		cardView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick (final View v) {
-				feedClickListener.onClick(feed);
+				feedClickListener.onClick(cardView, feed);
 			}
 		});
 

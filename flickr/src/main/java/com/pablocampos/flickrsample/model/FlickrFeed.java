@@ -3,7 +3,9 @@ package com.pablocampos.flickrsample.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class FlickrFeed {
+import java.io.Serializable;
+
+public class FlickrFeed implements Serializable {
 
 	@SerializedName("title")
 	@Expose

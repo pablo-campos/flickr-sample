@@ -9,6 +9,11 @@
 		<item name="colorAccent">@color/colorAccent</item>
 		<item name="colorControlHighlight">@color/colorAccent</item>
 
+		<!-- Enable window content transitions -->
+		<item name="android:windowActivityTransitions">true</item>
+		<item name="android:windowSharedElementEnterTransition">@transition/move</item>
+		<item name="android:windowSharedElementExitTransition">@transition/move</item>
+
 	</style>
 
 </resources>

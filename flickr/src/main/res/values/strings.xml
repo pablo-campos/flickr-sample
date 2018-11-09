@@ -4,4 +4,6 @@
 
 	<string name="network_call_error">An error occurred. Please try again.</string>
 
+	<string name="title_activity_details">Feed Details</string>
+
 </resources>

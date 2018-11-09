@@ -1,12 +1,17 @@
-package com.pablocampos.flickrsample;
+package com.pablocampos.flickrsample.activity;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
 
+import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.adapter.FeedAdapter;
 import com.pablocampos.flickrsample.adapter.FeedClickListener;
 import com.pablocampos.flickrsample.model.ApiData;
@@ -23,6 +28,7 @@ public class FlickrActivity extends AppCompatActivity {
 
 
 	private Call<ApiData> apiCall;
+	private SwipeRefreshLayout swipeRefreshLayout;
 	private RecyclerView feedGrid;
 	private FeedAdapter feedAdapter;
 
@@ -33,13 +39,18 @@ public class FlickrActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_flickr);
 
 		// Initialize grid view
 		final FeedClickListener feedClickListener = new FeedClickListener() {
 			@Override
-			public void onClick (final FlickrFeed flickrFeed) {
-				// Do something here
+			public void onClick (final View view, final FlickrFeed flickrFeed) {
+
+				Intent intent = new Intent(FlickrActivity.this, DetailsActivity.class);
+				intent.putExtra(DetailsActivity.FLICKR_FEED, flickrFeed);
+				ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(FlickrActivity.this, view, "feed_image");
+				startActivity(intent, options.toBundle());
 			}
 		};
 
@@ -50,7 +61,16 @@ public class FlickrActivity extends AppCompatActivity {
 		feedGrid.setLayoutManager(new StaggeredGridLayoutManager(numberOfColumns, StaggeredGridLayoutManager.VERTICAL));
 		feedGrid.setAdapter(feedAdapter);
 
-		performQuery("german shepherd", "dog");
+		// Initialize swipe to refresh
+		swipeRefreshLayout = findViewById(R.id.swiperefresh);
+		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh () {
+				performQuery("space", "space photography");
+			}
+		});
+
+		performQuery("space", "space photography");
 	}
 
 
@@ -63,11 +83,23 @@ public class FlickrActivity extends AppCompatActivity {
 		apiCall.enqueue(new Callback<ApiData>() {
 			@Override
 			public void onResponse(Call<ApiData> call, Response<ApiData> response) {
+
+				// Stop refresh status
+				if (swipeRefreshLayout.isRefreshing()){
+					swipeRefreshLayout.setRefreshing(false);
+				}
+
+				// Update data
 				feedAdapter.updateData(response.body().getItems());
 			}
 
 			@Override
 			public void onFailure(Call<ApiData> call, Throwable t) {
+
+				// Stop refresh status
+				if (swipeRefreshLayout.isRefreshing()){
+					swipeRefreshLayout.setRefreshing(false);
+				}
 
 				// Display an error
 				Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, BaseTransientBottomBar.LENGTH_SHORT);
