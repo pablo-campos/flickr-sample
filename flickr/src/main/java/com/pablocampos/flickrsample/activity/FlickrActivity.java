@@ -14,6 +14,7 @@ import android.view.View;
 import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.adapter.FeedAdapter;
 import com.pablocampos.flickrsample.adapter.FeedClickListener;
+import com.pablocampos.flickrsample.adapter.FeedItemAnimator;
 import com.pablocampos.flickrsample.model.ApiData;
 import com.pablocampos.flickrsample.model.FlickrFeed;
 import com.pablocampos.flickrsample.network.FlickrApi;
@@ -58,7 +59,8 @@ public class FlickrActivity extends AppCompatActivity {
 
 		int numberOfColumns = 2;
 		feedGrid = findViewById(R.id.feedGrid);
-		feedGrid.setLayoutManager(new StaggeredGridLayoutManager(numberOfColumns, StaggeredGridLayoutManager.VERTICAL));
+		feedGrid.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+		feedGrid.setItemAnimator(new FeedItemAnimator());
 		feedGrid.setAdapter(feedAdapter);
 
 		// Initialize swipe to refresh
@@ -66,11 +68,11 @@ public class FlickrActivity extends AppCompatActivity {
 		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh () {
-				performQuery("space", "space photography");
+				performQuery("wild", "animal");
 			}
 		});
 
-		performQuery("space", "space photography");
+		performQuery("wild", "animal");
 	}
 
 

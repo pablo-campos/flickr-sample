@@ -13,7 +13,8 @@
 	android:layout_marginStart="@dimen/medium_margin"
 	android:layout_marginEnd="@dimen/medium_margin"
 	android:foreground="?android:attr/selectableItemBackground"
-	app:cardPreventCornerOverlap="false">
+	app:cardPreventCornerOverlap="false"
+	app:cardBackgroundColor="@android:color/black">
 
 	<RelativeLayout
 		android:layout_width="match_parent"
@@ -27,27 +28,23 @@
 			android:adjustViewBounds="true"
 			android:scaleType="fitXY"/>
 
-		<View
-			android:layout_width="wrap_content"
+		<LinearLayout
+			android:layout_alignBottom="@id/feed_image"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_alignTop="@id/feed_title"
-			android:layout_alignBottom="@id/feed_title"
 			android:background="@drawable/gradient_background"
-			android:paddingTop="@dimen/medium_margin"
-			android:layout_alignParentBottom="true"/>
+			android:padding="@dimen/large_margin">
 
-		<TextView
-			android:id="@+id/feed_title"
-			android:layout_alignParentBottom="true"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textSize="@dimen/large_font_size"
-			tools:text="Label"
-			android:layout_marginStart="@dimen/medium_margin"
-			android:layout_marginEnd="@dimen/medium_margin"
-			android:layout_marginBottom="@dimen/large_margin"
-			android:textStyle="bold"
-			android:textColor="@color/feed_title_text_color"/>
+			<TextView
+				android:id="@+id/feed_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="@dimen/large_font_size"
+				tools:text="Label"
+				android:textStyle="bold"
+				android:textColor="@color/feed_title_text_color"/>
+
+		</LinearLayout>
 
 	</RelativeLayout>
 

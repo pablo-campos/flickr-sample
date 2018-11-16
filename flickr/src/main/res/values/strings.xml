@@ -6,4 +6,9 @@
 
 	<string name="title_activity_details">Feed Details</string>
 
+	<string name="author_label">Author : %s</string>
+	<string name="date_taken_label">Date Taken: %s</string>
+	<string name="date_published_label">Date Published: %s</string>
+	<string name="tags_label">Tags: %s</string>
+
 </resources>
