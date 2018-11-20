@@ -9,5 +9,5 @@ import retrofit2.http.Query;
 public interface FlickrInterface {
 
 	@GET("/services/feeds/photos_public.gne?format=json&nojsoncallback=?")
-	Call<ApiData> getFlickrFeeds (@Query("text") String text, @Query("tags") String tags);
+	Call<ApiData> getFlickrFeeds (@Query("tags") String tags);
 }
