@@ -16,4 +16,20 @@
 
 	</style>
 
+	<!-- Base application theme. -->
+	<style name="DetailsTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorAccent">@color/colorAccent</item>
+		<item name="colorControlHighlight">@color/colorAccent</item>
+
+		<!-- Enable window content transitions -->
+		<item name="android:windowActivityTransitions">true</item>
+		<item name="android:windowSharedElementEnterTransition">@transition/move</item>
+		<item name="android:windowSharedElementExitTransition">@transition/move</item>
+
+	</style>
+
 </resources>

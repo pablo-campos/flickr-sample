@@ -6,7 +6,7 @@
 
 	<dimen name="small_font_size">12sp</dimen>
 	<dimen name="medium_font_size">16sp</dimen>
-	<dimen name="large_font_size">20sp</dimen>
+	<dimen name="large_font_size">27sp</dimen>
 
 	<dimen name="small_margin">5dp</dimen>
 	<dimen name="medium_margin">8dp</dimen>

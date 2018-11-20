@@ -57,7 +57,6 @@ public class FlickrActivity extends AppCompatActivity {
 
 		feedAdapter = new FeedAdapter(feedClickListener);
 
-		int numberOfColumns = 2;
 		feedGrid = findViewById(R.id.feedGrid);
 		feedGrid.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
 		feedGrid.setItemAnimator(new FeedItemAnimator());

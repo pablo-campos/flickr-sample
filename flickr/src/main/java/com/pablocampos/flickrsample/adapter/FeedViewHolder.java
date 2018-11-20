@@ -45,7 +45,10 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 			}
 		});
 
-		Glide.with(cardView.getContext()).load(feed.getMedia().getM()).into(feedImage);
+		Glide.with(cardView.getContext())
+				.asBitmap()
+				.load(feed.getMedia().getM())
+				.into(feedImage);
 
 		// Name
 		feedTitle.setText(WordUtils.capitalizeFully(feed.getTitle()));

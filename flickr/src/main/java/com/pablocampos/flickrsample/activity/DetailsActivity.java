@@ -2,11 +2,11 @@ package com.pablocampos.flickrsample.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.Toolbar;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -21,6 +21,9 @@ import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.model.FlickrFeed;
 
 import org.apache.commons.text.WordUtils;
+
+import static com.pablocampos.flickrsample.utils.Utils.createPaletteSync;
+import static com.pablocampos.flickrsample.utils.Utils.manipulateColor;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -59,9 +62,10 @@ public class DetailsActivity extends AppCompatActivity {
 
 
 					@Override
-					public boolean onResourceReady (final Bitmap resource, final Object model, final Target<Bitmap> target, final DataSource dataSource, final boolean isFirstResource) {
+					public boolean onResourceReady (final Bitmap bitmap, final Object model, final Target<Bitmap> target, final DataSource dataSource, final boolean isFirstResource) {
 
-						updateColors(createPaletteSync(resource));
+						setDetailColors(bitmap);
+						setToolbarColors(bitmap);
 						return false;
 					}
 				})
@@ -85,26 +89,57 @@ public class DetailsActivity extends AppCompatActivity {
 
 
 
-	// Generate palette synchronously and return it
-	private Palette createPaletteSync(Bitmap bitmap) {
-		Palette p = Palette.from(bitmap).generate();
-		return p;
+	private void setDetailColors (Bitmap bitmap){
+
+		Palette palette = createPaletteSync(bitmap);
+		Palette.Swatch lightVibrantSwatch = palette.getLightVibrantSwatch();
+
+		int textColor = lightVibrantSwatch != null ? lightVibrantSwatch.getRgb() :  Color.WHITE;
+
+		feedAuthor.setTextColor(textColor);
+		feedDateTaken.setTextColor(textColor);
+		feedDatePublished.setTextColor(textColor);
+		feedTags.setTextColor(textColor);
 	}
 
 
 
-	private void updateColors (Palette palette){
-		feedAuthor.setTextColor(palette.getVibrantColor(Color.WHITE));
-		feedDateTaken.setTextColor(palette.getVibrantColor(Color.WHITE));
-		feedDatePublished.setTextColor(palette.getVibrantColor(Color.WHITE));
-		feedTags.setTextColor(palette.getVibrantColor(Color.WHITE));
+	/**
+	 * Set the background and text colors of a toolbar given a
+	 * bitmap image to match
+	 * @param bitmap image
+	 */
+	public void setToolbarColors (Bitmap bitmap) {
+		// Generate the palette and get the vibrant swatch
+		// See the createPaletteSync() method
+		// from the code snippet above
+		Palette palette = createPaletteSync(bitmap);
+		Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();		// palette.getDarkVibrantSwatch()
 
-		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(palette.getLightMutedColor(Color.WHITE)));
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
 
+		int actionBarTextColor = Color.WHITE;
+		int actionBarBackgroundColor = getResources().getColor(R.color.colorPrimary);
+		int statusBarBackgroundColor = getResources().getColor(R.color.colorPrimaryDark);
+
+		// Check that the Vibrant swatch is available and set the toolbar background and text colors
+		if(vibrantSwatch != null){
+			actionBarTextColor = vibrantSwatch.getTitleTextColor();
+			actionBarBackgroundColor = vibrantSwatch.getRgb();
+			statusBarBackgroundColor = manipulateColor(actionBarBackgroundColor, 0.8f);
+		}
+
+		// Update toolbar colors:
+		toolbar.setTitleTextColor(actionBarTextColor);
+		toolbar.setBackgroundColor(actionBarBackgroundColor);
+
+		// Update status nar color:
 		Window window = getWindow();
 		window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-		window.setStatusBarColor(palette.getMutedColor(Color.WHITE));
+		window.setStatusBarColor(statusBarBackgroundColor);
 	}
+
 
 }

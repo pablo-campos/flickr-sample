@@ -22,6 +22,7 @@
 		</activity>
 		<activity
 			android:name=".activity.DetailsActivity"
+			android:theme="@style/DetailsTheme"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:label="@string/title_activity_details"/>
 	</application>
