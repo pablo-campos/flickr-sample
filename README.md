@@ -1,6 +1,8 @@
 # Flickr Sample
 This app allows users to browse images from Flickr as well as search images with specific tags and view the individual details of each image feed.
 
+![alt tag](https://thumbs.gfycat.com/EvilLiquidBarebirdbat-max-1mb.gif)
+
 ## Installation:
 You should be able to clone the project and run it on Android Studio.
 
@@ -31,8 +33,3 @@ You should be able to clone the project and run it on Android Studio.
 
 * Details view:
 <img src="details_view.png" width="240" height="428"/>
-
-* Details Transition:
-
-![alt tag](https://thumbs.gfycat.com/EvilLiquidBarebirdbat-max-1mb.gif)
-
