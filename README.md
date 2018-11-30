@@ -31,3 +31,7 @@ You should be able to clone the project and run it on Android Studio.
 
 * Details view:
 <img src="details_view.png" width="240" height="428"/>
+
+* Details Transition:
+![alt tag](https://thumbs.gfycat.com/EvilLiquidBarebirdbat-max-1mb.gif)
+
