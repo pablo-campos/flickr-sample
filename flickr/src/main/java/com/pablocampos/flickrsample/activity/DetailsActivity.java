@@ -114,7 +114,7 @@ public class DetailsActivity extends AppCompatActivity {
 		// See the createPaletteSync() method
 		// from the code snippet above
 		Palette palette = createPaletteSync(bitmap);
-		Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();		// palette.getDarkVibrantSwatch()
+		Palette.Swatch paletteSwatch = palette.getVibrantSwatch() != null ? palette.getVibrantSwatch() : palette.getLightVibrantSwatch();
 
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -123,10 +123,10 @@ public class DetailsActivity extends AppCompatActivity {
 		int actionBarBackgroundColor = getResources().getColor(R.color.colorPrimary);
 		int statusBarBackgroundColor = getResources().getColor(R.color.colorPrimaryDark);
 
-		// Check that the Vibrant swatch is available and set the toolbar background and text colors
-		if(vibrantSwatch != null){
-			actionBarTextColor = vibrantSwatch.getTitleTextColor();
-			actionBarBackgroundColor = vibrantSwatch.getRgb();
+		// Let's see if we have a palette swatch to use
+		if(paletteSwatch != null){
+			actionBarTextColor = paletteSwatch.getTitleTextColor();
+			actionBarBackgroundColor = paletteSwatch.getRgb();
 			statusBarBackgroundColor = manipulateColor(actionBarBackgroundColor, 0.8f);
 		}
 
