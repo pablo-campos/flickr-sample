@@ -7,9 +7,7 @@ You should be able to clone the project and run it on Android Studio.
 ## Libraries:
 * Android Support Library.
 * Android Palette API
-* Android Architecture Components:
-** LiveData.
-** ViewModel.
+* Android Architecture Components: LiveData & ViewModel.
 * Glide.
 * Retrofit.
 
