@@ -37,6 +37,7 @@ public class ApiDataViewModel extends ViewModel {
 		Call<ApiData> apiCall = service.getFlickrFeeds(tags);
 
 		dataWrapper.setStatus(DataWrapper.Status.LOADING);
+		liveData.postValue(dataWrapper);
 
 		apiCall.enqueue(new Callback<ApiData>() {
 			@Override
