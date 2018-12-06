@@ -1,5 +1,6 @@
 package com.pablocampos.flickrsample.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataWrapper <T> {
@@ -14,6 +15,12 @@ public class DataWrapper <T> {
 
 	private Status status;
 	private List<T> data;
+
+
+
+	public DataWrapper () {
+		data = new ArrayList<>();
+	}
 
 
 

@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.adapter.FeedAdapter;
 import com.pablocampos.flickrsample.adapter.FeedClickListener;
@@ -48,8 +49,8 @@ public class FlickrActivity extends AppCompatActivity {
 		getMenuInflater().inflate(R.menu.menu_search, menu);
 
 		// Initialize the search functionality on the activity's toolbar
-		final MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
-		searchView = (SearchView) myActionMenuItem.getActionView();
+		final MenuItem searchActionItem = menu.findItem(R.id.action_search);
+		searchView = (SearchView) searchActionItem.getActionView();
 
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
@@ -64,7 +65,7 @@ public class FlickrActivity extends AppCompatActivity {
 				if(!searchView.isIconified()) {
 					searchView.setIconified(true);
 				}
-				myActionMenuItem.collapseActionView();
+				searchActionItem.collapseActionView();
 				return false;
 			}
 
@@ -75,6 +76,20 @@ public class FlickrActivity extends AppCompatActivity {
 		});
 
 		return true;
+	}
+
+
+
+	@Override
+	public boolean onOptionsItemSelected (final MenuItem item) {
+
+		// When the user selects an option to see the licenses:
+		if (item.getItemId() == R.id.action_settings){
+			OssLicensesMenuActivity.setActivityTitle(getString(R.string.action_bar_open_source_licences_title));
+			startActivity(new Intent(FlickrActivity.this, OssLicensesMenuActivity.class));
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 
