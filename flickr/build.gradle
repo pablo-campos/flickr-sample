@@ -11,6 +11,7 @@ android {
 		versionName "1.0"
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 	}
+
 	buildTypes {
 		release {
 			minifyEnabled false
@@ -41,7 +42,7 @@ dependencies {
 
 	// Retrofit / GSON
 	implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-	implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+	implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 
 	// ViewModel and LiveData
 	implementation "android.arch.lifecycle:extensions:1.1.1"
