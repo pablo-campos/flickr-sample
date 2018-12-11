@@ -5,10 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.graphics.Palette;
 
 import com.pablocampos.flickrsample.R;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.palette.graphics.Palette;
 
 public class Utils {
 
