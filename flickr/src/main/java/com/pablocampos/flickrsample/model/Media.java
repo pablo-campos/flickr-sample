@@ -12,6 +12,10 @@ public class Media implements Serializable {
 	private String m;
 
 	public String getM() {
+
+		if (m.contains("_m.")){
+			return m.replace("_m.", ".");
+		}
 		return m;
 	}
 
