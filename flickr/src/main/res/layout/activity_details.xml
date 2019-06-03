@@ -102,12 +102,17 @@
 							android:textColor="@color/feed_title_text_color"/>
 
 						<TextView
-							android:id="@+id/feed_tags"
+							android:id="@+id/feed_tags_label"
+							android:textSize="@dimen/medium_font_size"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="@dimen/medium_font_size"
-							android:layout_margin="@dimen/medium_margin"
-							android:textColor="@color/feed_title_text_color"/>
+							android:textColor="@color/feed_title_text_color"
+							android:layout_margin="@dimen/medium_margin"/>
+
+						<com.google.android.material.chip.ChipGroup
+							android:id="@+id/chip_group"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"/>
 
 					</LinearLayout>
 

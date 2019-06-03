@@ -1,8 +1,11 @@
 package com.pablocampos.flickrsample.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -13,10 +16,15 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.model.FlickrFeed;
 
 import org.apache.commons.text.WordUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +46,8 @@ public class DetailsActivity extends AppCompatActivity {
 	private TextView feedAuthor;
 	private TextView feedDateTaken;
 	private TextView feedDatePublished;
-	private TextView feedTags;
+	private TextView feedTagsLabel;
+	private ChipGroup feedTags;
 
 
 
@@ -84,8 +93,33 @@ public class DetailsActivity extends AppCompatActivity {
 		feedDatePublished = findViewById(R.id.feed_date_published);
 		feedDatePublished.setText(String.format(getResources().getString(R.string.date_published_label), feed.getPublished()));
 
-		feedTags = findViewById(R.id.feed_tags);
-		feedTags.setText(String.format(getResources().getString(R.string.tags_label), feed.getTags()));
+		feedTagsLabel = findViewById(R.id.feed_tags_label);
+		feedTagsLabel.setText(getResources().getString(R.string.tags_label));
+
+		feedTags = findViewById(R.id.chip_group);
+		feedTags.setChipSpacing(8);
+		if (feed.getTags() != null && !feed.getTags().isEmpty()){
+			String[] tags = feed.getTags().split(" ", 10);
+			for (final String tag : tags){
+				Chip chip = new Chip(feedTags.getContext());
+				chip.setText(tag);
+				chip.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick (final View v) {
+						String escapedQuery = null;
+						try {
+							escapedQuery = URLEncoder.encode(tag, "UTF-8");
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
+						Uri uri = Uri.parse("http://www.google.com/#q=" + escapedQuery);
+						Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+						startActivity(intent);
+					}
+				});
+				feedTags.addView(chip);
+			}
+		}
 	}
 
 
@@ -100,7 +134,7 @@ public class DetailsActivity extends AppCompatActivity {
 		feedAuthor.setTextColor(textColor);
 		feedDateTaken.setTextColor(textColor);
 		feedDatePublished.setTextColor(textColor);
-		feedTags.setTextColor(textColor);
+		feedTagsLabel.setTextColor(textColor);
 	}
 
 
