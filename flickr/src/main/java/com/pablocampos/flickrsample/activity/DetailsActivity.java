@@ -55,6 +55,9 @@ public class DetailsActivity extends AppCompatActivity {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// Postpone enter transition until GREEN light is given
+		supportPostponeEnterTransition();
+
 		setContentView(R.layout.activity_details);
 
 		FlickrFeed feed = (FlickrFeed) getIntent().getSerializableExtra(FLICKR_FEED);
@@ -66,6 +69,7 @@ public class DetailsActivity extends AppCompatActivity {
 				.addListener(new RequestListener<Bitmap>() {
 					@Override
 					public boolean onLoadFailed (@Nullable final GlideException e, final Object model, final Target<Bitmap> target, final boolean isFirstResource) {
+						supportStartPostponedEnterTransition();		// Proceed with enter transition
 						return false;
 					}
 
@@ -73,7 +77,7 @@ public class DetailsActivity extends AppCompatActivity {
 
 					@Override
 					public boolean onResourceReady (final Bitmap bitmap, final Object model, final Target<Bitmap> target, final DataSource dataSource, final boolean isFirstResource) {
-
+						supportStartPostponedEnterTransition();		// Proceed with enter transition
 						setDetailColors(bitmap);
 						setToolbarColors(bitmap);
 						return false;
