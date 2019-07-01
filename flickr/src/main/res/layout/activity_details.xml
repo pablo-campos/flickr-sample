@@ -86,7 +86,8 @@
 							android:layout_height="wrap_content"
 							android:textSize="@dimen/medium_font_size"
 							android:layout_margin="@dimen/medium_margin"
-							android:textColor="@color/feed_title_text_color"/>
+							android:textColor="@color/feed_title_text_color"
+							android:text="label"/>
 
 						<TextView
 							android:id="@+id/feed_date_taken"
@@ -94,7 +95,8 @@
 							android:layout_height="wrap_content"
 							android:textSize="@dimen/medium_font_size"
 							android:layout_margin="@dimen/medium_margin"
-							android:textColor="@color/feed_title_text_color"/>
+							android:textColor="@color/feed_title_text_color"
+							android:text="label"/>
 
 						<TextView
 							android:id="@+id/feed_date_published"
@@ -102,7 +104,8 @@
 							android:layout_height="wrap_content"
 							android:textSize="@dimen/medium_font_size"
 							android:layout_margin="@dimen/medium_margin"
-							android:textColor="@color/feed_title_text_color"/>
+							android:textColor="@color/feed_title_text_color"
+							android:text="label"/>
 
 						<TextView
 							android:id="@+id/feed_tags_label"
@@ -110,12 +113,16 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:textColor="@color/feed_title_text_color"
-							android:layout_margin="@dimen/medium_margin"/>
+							android:layout_margin="@dimen/medium_margin"
+							android:layout_marginBottom="0dp"
+							android:text="label"/>
 
 						<com.google.android.material.chip.ChipGroup
 							android:id="@+id/chip_group"
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"/>
+							android:layout_height="wrap_content"
+							android:layout_marginStart="@dimen/medium_margin"
+							android:layout_marginEnd="@dimen/medium_margin"/>
 
 					</LinearLayout>
 

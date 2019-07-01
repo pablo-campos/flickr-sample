@@ -97,9 +97,9 @@ public class DetailsActivity extends AppCompatActivity {
 		feedDatePublished = findViewById(R.id.feed_date_published);
 		feedDatePublished.setText(String.format(getResources().getString(R.string.date_published_label), feed.getPublished()));
 
+		// Update tags
 		feedTagsLabel = findViewById(R.id.feed_tags_label);
 		feedTagsLabel.setText(getResources().getString(R.string.tags_label));
-
 		feedTags = findViewById(R.id.chip_group);
 		feedTags.setChipSpacing(8);
 		if (feed.getTags() != null && !feed.getTags().isEmpty()){
@@ -123,6 +123,9 @@ public class DetailsActivity extends AppCompatActivity {
 				});
 				feedTags.addView(chip);
 			}
+		} else {
+			feedTagsLabel.setVisibility(View.GONE);
+			feedTags.setVisibility(View.GONE);
 		}
 	}
 
