@@ -5,7 +5,8 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent" >
+	android:layout_height="match_parent"
+	android:animateLayoutChanges="true" >
 
 	<androidx.appcompat.widget.Toolbar
 		android:id="@+id/toolbar"
@@ -17,7 +18,8 @@
 	<RelativeLayout
 		android:layout_below="@id/toolbar"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="match_parent"
+		android:animateLayoutChanges="true">
 
 		<androidx.cardview.widget.CardView
 			android:id="@+id/card_view"
@@ -34,12 +36,12 @@
 			android:foreground="?android:attr/selectableItemBackground"
 			app:cardPreventCornerOverlap="false"
 			app:cardBackgroundColor="@android:color/black"
-			android:animateLayoutChanges="false">
+			android:animateLayoutChanges="true">
 
 			<RelativeLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:animateLayoutChanges="false">
+				android:animateLayoutChanges="true">
 
 				<ImageView
 					android:id="@+id/feed_image"
@@ -71,14 +73,16 @@
 				<ScrollView
 					android:layout_below="@id/feed_image"
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
+					android:layout_height="wrap_content"
+					android:animateLayoutChanges="true">
 
 					<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:paddingTop="@dimen/large_margin"
 						android:paddingBottom="@dimen/large_margin"
-						android:orientation="vertical">
+						android:orientation="vertical"
+						android:animateLayoutChanges="true">
 
 						<TextView
 							android:id="@+id/feed_author"
@@ -109,6 +113,15 @@
 
 						<TextView
 							android:id="@+id/firebase_text_recognizer"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textSize="@dimen/medium_font_size"
+							android:layout_margin="@dimen/medium_margin"
+							android:textColor="@color/feed_title_text_color"
+							android:text="..."/>
+
+						<TextView
+							android:id="@+id/firebase_label_image"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:textSize="@dimen/medium_font_size"

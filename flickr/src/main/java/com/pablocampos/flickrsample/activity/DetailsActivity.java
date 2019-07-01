@@ -18,11 +18,12 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.pablocampos.flickrsample.R;
@@ -32,6 +33,7 @@ import org.apache.commons.text.WordUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,6 +57,7 @@ public class DetailsActivity extends AppCompatActivity {
 	private TextView feedDateTaken;
 	private TextView feedDatePublished;
 	private TextView firebaseTextRecognizer;
+	private TextView firebaseLabelImage;
 	private TextView feedTagsLabel;
 	private ChipGroup feedTags;
 
@@ -86,10 +89,9 @@ public class DetailsActivity extends AppCompatActivity {
 
 					@Override
 					public boolean onResourceReady (final Bitmap bitmap, final Object model, final Target<Bitmap> target, final DataSource dataSource, final boolean isFirstResource) {
-						supportStartPostponedEnterTransition();		// Proceed with enter transition
 						setDetailColors(bitmap);
 						setToolbarColors(bitmap);
-						recognizetextFromImage(bitmap);
+						processFirebaseServices(bitmap);
 						return false;
 					}
 				})
@@ -108,6 +110,7 @@ public class DetailsActivity extends AppCompatActivity {
 		feedDatePublished.setText(String.format(getResources().getString(R.string.date_published_label), feed.getPublished()));
 
 		firebaseTextRecognizer  = findViewById(R.id.firebase_text_recognizer);
+		firebaseLabelImage  = findViewById(R.id.firebase_label_image);
 
 		// Update tags
 		feedTagsLabel = findViewById(R.id.feed_tags_label);
@@ -154,6 +157,7 @@ public class DetailsActivity extends AppCompatActivity {
 		feedDateTaken.setTextColor(textColor);
 		feedDatePublished.setTextColor(textColor);
 		firebaseTextRecognizer.setTextColor(textColor);
+		firebaseLabelImage.setTextColor(textColor);
 		feedTagsLabel.setTextColor(textColor);
 	}
 
@@ -201,10 +205,12 @@ public class DetailsActivity extends AppCompatActivity {
 	/**
 	 *
 	 */
-	public void recognizetextFromImage (Bitmap bitmap) {
+	public void processFirebaseServices (Bitmap bitmap) {
 		FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
+
+		// Text Recognizer
 		FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
-		Task<FirebaseVisionText> result = detector.processImage(image)
+		detector.processImage(image)
 						.addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
 							@Override
 							public void onSuccess(FirebaseVisionText firebaseVisionText) {
@@ -218,8 +224,37 @@ public class DetailsActivity extends AppCompatActivity {
 									public void onFailure(@NonNull Exception e) {
 										// Task failed with an exception
 										firebaseTextRecognizer.setVisibility(View.GONE);
+										supportStartPostponedEnterTransition();		// Proceed with enter transition
 									}
 								});
+
+		// Image Labeler
+		FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance().getOnDeviceImageLabeler();
+		labeler.processImage(image)
+				.addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+					@Override
+					public void onSuccess(List<FirebaseVisionImageLabel> labels) {
+
+						// Task completed successfully
+						String description = "";
+						for (FirebaseVisionImageLabel label: labels) {
+							String text = label.getText();
+							float confidence = label.getConfidence();
+							description = description.concat("\n\t" + text + " - " + confidence * 100 + "%");
+						}
+
+						firebaseLabelImage.setText(String.format(getResources().getString(R.string.firebase_label_image_label), description));
+						supportStartPostponedEnterTransition();		// Proceed with enter transition
+					}
+				})
+				.addOnFailureListener(new OnFailureListener() {
+					@Override
+					public void onFailure(@NonNull Exception e) {
+						// Task failed with an exception
+						firebaseLabelImage.setVisibility(View.GONE);
+						supportStartPostponedEnterTransition();		// Proceed with enter transition
+					}
+				});
 	}
 
 

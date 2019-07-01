@@ -54,6 +54,7 @@ dependencies {
 	// ML Kit Android libraries
 	compile 'com.google.firebase:firebase-core:17.0.0'
 	implementation 'com.google.firebase:firebase-ml-vision:21.0.0'
+	implementation 'com.google.firebase:firebase-ml-vision-image-label-model:18.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
