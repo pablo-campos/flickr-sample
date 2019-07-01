@@ -11,8 +11,13 @@ You should be able to clone the project and run it on Android Studio.
 * Android Palette API.
 * Android Activity Transitions.
 * Android Architecture Components: LiveData & ViewModel.
+* AndroidX (Updated).
+* Android Material Components Theme (Updated).
 * Glide.
 * Retrofit.
+* Firebase.
+* Firebase - ML Kit - Text Recognition.
+* Firebase - ML Kit - Image Labeling.
 
 ## A few enhancements to keep in mind:
 * Continue adding details on details screen.
