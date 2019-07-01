@@ -5,9 +5,13 @@
 
 		<!-- Customize your theme here. -->
 		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryVariant">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorSecondary">@color/colorPrimaryDark</item>
+		<item name="colorSecondaryVariant">@color/colorPrimaryDark</item>
 		<item name="colorAccent">@color/colorAccent</item>
 		<item name="colorControlHighlight">@color/colorAccent</item>
+		<item name="colorControlNormal">@color/colorAccent</item>
 
 		<!-- Enable window content transitions -->
 		<item name="android:windowActivityTransitions">true</item>
@@ -21,9 +25,13 @@
 
 		<!-- Customize your theme here. -->
 		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryVariant">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorSecondary">@color/colorPrimaryDark</item>
+		<item name="colorSecondaryVariant">@color/colorPrimaryDark</item>
 		<item name="colorAccent">@color/colorAccent</item>
 		<item name="colorControlHighlight">@color/colorAccent</item>
+		<item name="colorControlNormal">@color/colorAccent</item>
 
 		<!-- Enable window content transitions -->
 		<item name="android:windowActivityTransitions">true</item>
