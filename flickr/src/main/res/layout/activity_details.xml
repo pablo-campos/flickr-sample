@@ -108,6 +108,15 @@
 							android:text="label"/>
 
 						<TextView
+							android:id="@+id/firebase_text_recognizer"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textSize="@dimen/medium_font_size"
+							android:layout_margin="@dimen/medium_margin"
+							android:textColor="@color/feed_title_text_color"
+							android:text="..."/>
+
+						<TextView
 							android:id="@+id/feed_tags_label"
 							android:textSize="@dimen/medium_font_size"
 							android:layout_width="wrap_content"

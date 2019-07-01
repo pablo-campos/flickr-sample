@@ -14,6 +14,7 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
+
 		<activity android:name=".activity.FlickrActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -21,11 +22,17 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
+
 		<activity
 			android:name=".activity.DetailsActivity"
 			android:theme="@style/DetailsTheme"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:label="@string/title_activity_details"/>
+
+		<meta-data
+			android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+			android:value="ocr" />
+
 	</application>
 
 </manifest>

@@ -16,8 +16,15 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.model.FlickrFeed;
 
@@ -26,6 +33,7 @@ import org.apache.commons.text.WordUtils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -46,6 +54,7 @@ public class DetailsActivity extends AppCompatActivity {
 	private TextView feedAuthor;
 	private TextView feedDateTaken;
 	private TextView feedDatePublished;
+	private TextView firebaseTextRecognizer;
 	private TextView feedTagsLabel;
 	private ChipGroup feedTags;
 
@@ -80,6 +89,7 @@ public class DetailsActivity extends AppCompatActivity {
 						supportStartPostponedEnterTransition();		// Proceed with enter transition
 						setDetailColors(bitmap);
 						setToolbarColors(bitmap);
+						recognizetextFromImage(bitmap);
 						return false;
 					}
 				})
@@ -96,6 +106,8 @@ public class DetailsActivity extends AppCompatActivity {
 
 		feedDatePublished = findViewById(R.id.feed_date_published);
 		feedDatePublished.setText(String.format(getResources().getString(R.string.date_published_label), feed.getPublished()));
+
+		firebaseTextRecognizer  = findViewById(R.id.firebase_text_recognizer);
 
 		// Update tags
 		feedTagsLabel = findViewById(R.id.feed_tags_label);
@@ -141,6 +153,7 @@ public class DetailsActivity extends AppCompatActivity {
 		feedAuthor.setTextColor(textColor);
 		feedDateTaken.setTextColor(textColor);
 		feedDatePublished.setTextColor(textColor);
+		firebaseTextRecognizer.setTextColor(textColor);
 		feedTagsLabel.setTextColor(textColor);
 	}
 
@@ -181,6 +194,32 @@ public class DetailsActivity extends AppCompatActivity {
 		window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 		window.setStatusBarColor(statusBarBackgroundColor);
+	}
+
+
+
+	/**
+	 *
+	 */
+	public void recognizetextFromImage (Bitmap bitmap) {
+		FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
+		FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
+		Task<FirebaseVisionText> result = detector.processImage(image)
+						.addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+							@Override
+							public void onSuccess(FirebaseVisionText firebaseVisionText) {
+								// Task completed successfully
+								firebaseTextRecognizer.setText(String.format(getResources().getString(R.string.firebase_text_recognizer_label), firebaseVisionText.getText()));
+							}
+						})
+						.addOnFailureListener(
+								new OnFailureListener() {
+									@Override
+									public void onFailure(@NonNull Exception e) {
+										// Task failed with an exception
+										firebaseTextRecognizer.setVisibility(View.GONE);
+									}
+								});
 	}
 
 

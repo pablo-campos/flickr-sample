@@ -10,6 +10,7 @@ import android.view.View;
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
 import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.adapter.FeedAdapter;
 import com.pablocampos.flickrsample.adapter.FeedClickListener;
@@ -98,6 +99,8 @@ public class FlickrActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		FirebaseApp.initializeApp(this);
 
 		setContentView(R.layout.activity_flickr);
 
