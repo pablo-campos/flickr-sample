@@ -1,5 +1,7 @@
 package com.pablocampos.flickrsample.model;
 
+import android.content.Context;
+
 import com.pablocampos.flickrsample.network.FlickrApi;
 import com.pablocampos.flickrsample.network.FlickrInterface;
 
@@ -19,20 +21,20 @@ public class ApiDataViewModel extends ViewModel {
 
 
 
-	public MutableLiveData<DataWrapper<FlickrFeed>> getLiveData () {
+	public MutableLiveData<DataWrapper<FlickrFeed>> getLiveData (final Context context) {
 		if (liveData == null){
 			dataWrapper = new DataWrapper<>();
 			liveData = new MutableLiveData<>();
-			loadFeeds("");
+			loadFeeds(context, "");
 		}
 		return liveData;
 	}
 
 
 
-	public void loadFeeds(final String tags){
+	public void loadFeeds(final Context context, final String tags){
 
-		FlickrInterface service = FlickrApi.getClient().create(FlickrInterface.class);
+		FlickrInterface service = FlickrApi.getClient(context).create(FlickrInterface.class);
 		Call<ApiData> apiCall = service.getFlickrFeeds(tags);
 
 		dataWrapper.setStatus(DataWrapper.Status.LOADING);

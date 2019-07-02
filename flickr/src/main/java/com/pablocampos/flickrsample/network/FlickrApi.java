@@ -1,5 +1,10 @@
 package com.pablocampos.flickrsample.network;
 
+import android.content.Context;
+
+import com.readystatesoftware.chuck.ChuckInterceptor;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -14,13 +19,18 @@ public class FlickrApi {
 
 
 
-	public static Retrofit getClient() {
+	public static Retrofit getClient(final Context context) {
 
 		if (retrofit == null) {
+
+			OkHttpClient client = new OkHttpClient.Builder()
+					.addInterceptor(new ChuckInterceptor(context))
+					.build();
 
 			retrofit = new retrofit2.Retrofit.Builder()
 					.baseUrl(BASE_URL)
 					.addConverterFactory(GsonConverterFactory.create())
+					.client(client)
 					.build();
 		}
 

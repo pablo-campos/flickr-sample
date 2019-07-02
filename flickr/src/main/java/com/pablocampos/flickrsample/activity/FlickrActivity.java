@@ -8,9 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.FirebaseApp;
 import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.adapter.FeedAdapter;
 import com.pablocampos.flickrsample.adapter.FeedClickListener;
@@ -60,7 +58,7 @@ public class FlickrActivity extends AppCompatActivity {
 
 				// If search view is empty, let's update the adapter with zero items, if not, let's request a new search query:
 				if (Utils.checkInternet(FlickrActivity.this)){		// Check internet connection and then perform query
-					apiDataViewModel.loadFeeds(query);
+					apiDataViewModel.loadFeeds(FlickrActivity.this, query);
 				}
 
 				// Update view
@@ -100,8 +98,6 @@ public class FlickrActivity extends AppCompatActivity {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		FirebaseApp.initializeApp(this);
-
 		setContentView(R.layout.activity_flickr);
 
 		// Initialize grid view
@@ -129,13 +125,13 @@ public class FlickrActivity extends AppCompatActivity {
 		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh () {
-				apiDataViewModel.loadFeeds("");
+				apiDataViewModel.loadFeeds(FlickrActivity.this, "");
 			}
 		});
 
 		// Initialize ViewModel
 		apiDataViewModel = ViewModelProviders.of(this).get(ApiDataViewModel.class);
-		apiDataViewModel.getLiveData().observe(this, new Observer<DataWrapper<FlickrFeed>>() {
+		apiDataViewModel.getLiveData(this).observe(this, new Observer<DataWrapper<FlickrFeed>>() {
 			@Override
 			public void onChanged (@Nullable final DataWrapper<FlickrFeed> flickrFeedDataWrapper) {
 
@@ -151,7 +147,7 @@ public class FlickrActivity extends AppCompatActivity {
 						swipeRefreshLayout.setRefreshing(true);
 						break;
 					case ERROR:
-						Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, BaseTransientBottomBar.LENGTH_SHORT);
+						Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, Snackbar.LENGTH_SHORT);
 						break;
 				}
 			}

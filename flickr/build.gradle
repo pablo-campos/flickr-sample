@@ -68,6 +68,10 @@ dependencies {
 
 	// LeakCanary. Imported as debugImplementation because LeakCanary should only run in debug builds.
 	debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
+
+	// Chuck
+	debugCompile 'com.readystatesoftware.chuck:library:1.1.0'
+	releaseCompile 'com.readystatesoftware.chuck:library-no-op:1.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
