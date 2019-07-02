@@ -13,9 +13,19 @@ android {
 	}
 
 	buildTypes {
+
 		release {
-			minifyEnabled false
+			debuggable false
+			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+			zipAlignEnabled true
+			shrinkResources false	// Can't be enabled b/c we use Resources#getIdentifier to look-up resources dynamically by name which confuses this tool
+		}
+
+		debug {
+			debuggable true
+			jniDebuggable true
+			minifyEnabled false
 		}
 	}
 }
@@ -55,6 +65,9 @@ dependencies {
 	compile 'com.google.firebase:firebase-core:17.0.0'
 	implementation 'com.google.firebase:firebase-ml-vision:21.0.0'
 	implementation 'com.google.firebase:firebase-ml-vision-image-label-model:18.0.0'
+
+	// LeakCanary. Imported as debugImplementation because LeakCanary should only run in debug builds.
+	debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
 }
 
 apply plugin: 'com.google.gms.google-services'
