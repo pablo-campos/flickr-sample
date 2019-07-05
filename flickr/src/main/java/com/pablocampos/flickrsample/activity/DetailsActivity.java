@@ -57,9 +57,10 @@ public class DetailsActivity extends AppCompatActivity {
 	private TextView feedDateTaken;
 	private TextView feedDatePublished;
 	private TextView firebaseTextRecognizer;
+	private TextView firebaseTextRecognizerValue;
 	private TextView firebaseLabelImage;
+	private TextView firebaseLabelImageValue;
 	private TextView feedTagsLabel;
-	private ChipGroup feedTags;
 
 
 
@@ -89,7 +90,6 @@ public class DetailsActivity extends AppCompatActivity {
 
 					@Override
 					public boolean onResourceReady (final Bitmap bitmap, final Object model, final Target<Bitmap> target, final DataSource dataSource, final boolean isFirstResource) {
-						setDetailColors(bitmap);
 						setToolbarColors(bitmap);
 						processFirebaseServices(bitmap);
 						return false;
@@ -110,12 +110,16 @@ public class DetailsActivity extends AppCompatActivity {
 		feedDatePublished.setText(String.format(getResources().getString(R.string.date_published_label), feed.getPublished()));
 
 		firebaseTextRecognizer  = findViewById(R.id.firebase_text_recognizer);
+		firebaseTextRecognizer.setText(getResources().getString(R.string.firebase_text_recognizer_label));
+		firebaseTextRecognizerValue  = findViewById(R.id.firebase_text_recognizer_value);
 		firebaseLabelImage  = findViewById(R.id.firebase_label_image);
+		firebaseLabelImage.setText(getResources().getString(R.string.firebase_label_image_label));
+		firebaseLabelImageValue  = findViewById(R.id.firebase_label_image_value);
 
 		// Update tags
 		feedTagsLabel = findViewById(R.id.feed_tags_label);
 		feedTagsLabel.setText(getResources().getString(R.string.tags_label));
-		feedTags = findViewById(R.id.chip_group);
+		final ChipGroup feedTags = findViewById(R.id.chip_group);
 		feedTags.setChipSpacing(8);
 		if (feed.getTags() != null && !feed.getTags().isEmpty()){
 			String[] tags = feed.getTags().split(" ", 10);
@@ -142,23 +146,22 @@ public class DetailsActivity extends AppCompatActivity {
 			feedTagsLabel.setVisibility(View.GONE);
 			feedTags.setVisibility(View.GONE);
 		}
+
+
+		setDetailColors();
 	}
 
 
 
-	private void setDetailColors (Bitmap bitmap){
-
-		Palette palette = createPaletteSync(bitmap);
-		Palette.Swatch lightVibrantSwatch = palette.getLightVibrantSwatch();
-
-		int textColor = lightVibrantSwatch != null ? lightVibrantSwatch.getRgb() :  Color.WHITE;
-
-		feedAuthor.setTextColor(textColor);
-		feedDateTaken.setTextColor(textColor);
-		feedDatePublished.setTextColor(textColor);
-		firebaseTextRecognizer.setTextColor(textColor);
-		firebaseLabelImage.setTextColor(textColor);
-		feedTagsLabel.setTextColor(textColor);
+	private void setDetailColors (){
+		feedAuthor.setTextColor(Color.WHITE);
+		feedDateTaken.setTextColor(Color.LTGRAY);
+		feedDatePublished.setTextColor(Color.LTGRAY);
+		firebaseTextRecognizer.setTextColor(Color.WHITE);
+		firebaseTextRecognizerValue.setTextColor(Color.LTGRAY);
+		firebaseLabelImage.setTextColor(Color.WHITE);
+		firebaseLabelImageValue.setTextColor(Color.LTGRAY);
+		feedTagsLabel.setTextColor(Color.WHITE);
 	}
 
 
@@ -203,9 +206,12 @@ public class DetailsActivity extends AppCompatActivity {
 
 
 	/**
-	 *
+	 * ML Kit APIs, we apply both based on the Bitmap downloaded via Glide.
+	 * Text Recognizer.
+	 * Image Labeler.
 	 */
 	public void processFirebaseServices (Bitmap bitmap) {
+
 		FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
 
 		// Text Recognizer
@@ -214,8 +220,9 @@ public class DetailsActivity extends AppCompatActivity {
 						.addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
 							@Override
 							public void onSuccess(FirebaseVisionText firebaseVisionText) {
+
 								// Task completed successfully
-								firebaseTextRecognizer.setText(String.format(getResources().getString(R.string.firebase_text_recognizer_label), firebaseVisionText.getText()));
+								firebaseTextRecognizerValue.setText(firebaseVisionText.getText());
 							}
 						})
 						.addOnFailureListener(
@@ -224,6 +231,7 @@ public class DetailsActivity extends AppCompatActivity {
 									public void onFailure(@NonNull Exception e) {
 										// Task failed with an exception
 										firebaseTextRecognizer.setVisibility(View.GONE);
+										firebaseTextRecognizerValue.setVisibility(View.GONE);
 										supportStartPostponedEnterTransition();		// Proceed with enter transition
 									}
 								});
@@ -237,13 +245,19 @@ public class DetailsActivity extends AppCompatActivity {
 
 						// Task completed successfully
 						String description = "";
-						for (FirebaseVisionImageLabel label: labels) {
+						for (int i = 0 ; i < labels.size() ; i++) {
+
+							FirebaseVisionImageLabel label = labels.get(i);
 							String text = label.getText();
 							float confidence = label.getConfidence();
-							description = description.concat("\n\t" + text + " - " + confidence * 100 + "%");
+							if (i == 0){
+								description = description.concat(text + " - " + confidence * 100 + "%");
+							} else {
+								description = description.concat("\n" + text + " - " + confidence * 100 + "%");
+							}
 						}
 
-						firebaseLabelImage.setText(String.format(getResources().getString(R.string.firebase_label_image_label), description));
+						firebaseLabelImageValue.setText(description);
 						supportStartPostponedEnterTransition();		// Proceed with enter transition
 					}
 				})
@@ -252,6 +266,7 @@ public class DetailsActivity extends AppCompatActivity {
 					public void onFailure(@NonNull Exception e) {
 						// Task failed with an exception
 						firebaseLabelImage.setVisibility(View.GONE);
+						firebaseLabelImageValue.setVisibility(View.GONE);
 						supportStartPostponedEnterTransition();		// Proceed with enter transition
 					}
 				});
