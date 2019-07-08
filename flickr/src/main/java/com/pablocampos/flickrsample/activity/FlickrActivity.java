@@ -147,6 +147,7 @@ public class FlickrActivity extends AppCompatActivity {
 						swipeRefreshLayout.setRefreshing(true);
 						break;
 					case ERROR:
+						swipeRefreshLayout.setRefreshing(false);
 						Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, Snackbar.LENGTH_SHORT);
 						break;
 				}
