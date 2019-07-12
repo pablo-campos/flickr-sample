@@ -3,15 +3,20 @@
 buildscript {
 
 	repositories {
-		mavenCentral()
+
 		google()
+		maven {
+			url 'https://maven.fabric.io/public'
+		}
 		jcenter()
+		mavenCentral()
 	}
 
 	dependencies {
 
-		classpath 'com.android.tools.build:gradle:3.4.1'
-		classpath 'com.google.gms:google-services:4.2.0'
+		classpath 'com.android.tools.build:gradle:3.4.2'
+		classpath 'com.google.gms:google-services:4.3.0'
+		classpath 'io.fabric.tools:gradle:1.30.0'
 
 		// Open Source Notices
 		classpath 'com.google.android.gms:oss-licenses-plugin:0.9.5'
