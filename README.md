@@ -16,6 +16,7 @@ You should be able to clone the project and run it on Android Studio.
 * Glide.
 * Retrofit.
 * Firebase.
+* Firebase - Crashlytics.
 * Firebase - ML Kit - Text Recognition.
 * Firebase - ML Kit - Image Labeling.
 
