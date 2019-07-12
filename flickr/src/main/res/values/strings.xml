@@ -20,4 +20,7 @@
 	<string name="action_bar_options_title">Options</string>
 	<string name="action_bar_open_source_licences_title">Open Source Licences</string>
 
+	<string name="firebase_server_error">Error!!!</string>
+	<string name="firebase_no_results">No Text Found</string>
+
 </resources>

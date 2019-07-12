@@ -91,7 +91,7 @@ public class DetailsActivity extends AppCompatActivity {
 					@Override
 					public boolean onResourceReady (final Bitmap bitmap, final Object model, final Target<Bitmap> target, final DataSource dataSource, final boolean isFirstResource) {
 						setToolbarColors(bitmap);
-						processFirebaseServices(bitmap);
+						processFirebaseTextRecognizer(bitmap);
 						return false;
 					}
 				})
@@ -206,11 +206,9 @@ public class DetailsActivity extends AppCompatActivity {
 
 
 	/**
-	 * ML Kit APIs, we apply both based on the Bitmap downloaded via Glide.
-	 * Text Recognizer.
-	 * Image Labeler.
+	 * ML Kit APIs, we apply "Text Recognizer" based on the Bitmap downloaded via Glide.
 	 */
-	public void processFirebaseServices (Bitmap bitmap) {
+	public void processFirebaseTextRecognizer (Bitmap bitmap) {
 
 		FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
 
@@ -222,7 +220,13 @@ public class DetailsActivity extends AppCompatActivity {
 							public void onSuccess(FirebaseVisionText firebaseVisionText) {
 
 								// Task completed successfully
-								firebaseTextRecognizerValue.setText(firebaseVisionText.getText());
+								if (firebaseVisionText.getText() == null || firebaseVisionText.getText().isEmpty()){
+									firebaseTextRecognizerValue.setText(getResources().getString(R.string.firebase_no_results));
+									processFirebaseImageLabeler(bitmap);
+								} else {
+									firebaseTextRecognizerValue.setText(firebaseVisionText.getText());
+									processFirebaseImageLabeler(bitmap);
+								}
 							}
 						})
 						.addOnFailureListener(
@@ -230,11 +234,20 @@ public class DetailsActivity extends AppCompatActivity {
 									@Override
 									public void onFailure(@NonNull Exception e) {
 										// Task failed with an exception
-										firebaseTextRecognizer.setVisibility(View.GONE);
-										firebaseTextRecognizerValue.setVisibility(View.GONE);
-										supportStartPostponedEnterTransition();		// Proceed with enter transition
+										firebaseTextRecognizerValue.setText(getResources().getString(R.string.firebase_server_error));
+										processFirebaseImageLabeler(bitmap);
 									}
 								});
+	}
+
+
+
+	/**
+	 * ML Kit APIs, we apply "Image Labeler" based on the Bitmap downloaded via Glide.
+	 */
+	public void processFirebaseImageLabeler (Bitmap bitmap) {
+
+		FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
 
 		// Image Labeler
 		FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance().getOnDeviceImageLabeler();
@@ -265,8 +278,7 @@ public class DetailsActivity extends AppCompatActivity {
 					@Override
 					public void onFailure(@NonNull Exception e) {
 						// Task failed with an exception
-						firebaseLabelImage.setVisibility(View.GONE);
-						firebaseLabelImageValue.setVisibility(View.GONE);
+						firebaseLabelImageValue.setText(getResources().getString(R.string.firebase_server_error));
 						supportStartPostponedEnterTransition();		// Proceed with enter transition
 					}
 				});
