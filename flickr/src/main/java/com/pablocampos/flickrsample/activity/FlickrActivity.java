@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 import com.google.android.material.snackbar.Snackbar;
@@ -14,14 +13,10 @@ import com.pablocampos.flickrsample.adapter.FeedAdapter;
 import com.pablocampos.flickrsample.adapter.FeedClickListener;
 import com.pablocampos.flickrsample.adapter.FeedItemAnimator;
 import com.pablocampos.flickrsample.model.ApiDataViewModel;
-import com.pablocampos.flickrsample.model.DataWrapper;
-import com.pablocampos.flickrsample.model.FlickrFeed;
 import com.pablocampos.flickrsample.utils.Utils;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -101,15 +96,12 @@ public class FlickrActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_flickr);
 
 		// Initialize grid view
-		final FeedClickListener feedClickListener = new FeedClickListener() {
-			@Override
-			public void onClick (final View view, final FlickrFeed flickrFeed) {
+		final FeedClickListener feedClickListener = (view, flickrFeed) -> {
 
-				Intent intent = new Intent(FlickrActivity.this, DetailsActivity.class);
-				intent.putExtra(DetailsActivity.FLICKR_FEED, flickrFeed);
-				ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(FlickrActivity.this, view, "feed_image");
-				startActivity(intent, options.toBundle());
-			}
+			Intent intent = new Intent(FlickrActivity.this, DetailsActivity.class);
+			intent.putExtra(DetailsActivity.FLICKR_FEED, flickrFeed);
+			ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(FlickrActivity.this, view, "feed_image");
+			startActivity(intent, options.toBundle());
 		};
 
 		feedAdapter = new FeedAdapter(feedClickListener);
@@ -122,35 +114,27 @@ public class FlickrActivity extends AppCompatActivity {
 
 		// Initialize swipe to refresh
 		swipeRefreshLayout = findViewById(R.id.swiperefresh);
-		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh () {
-				apiDataViewModel.loadFeeds(FlickrActivity.this, "");
-			}
-		});
+		swipeRefreshLayout.setOnRefreshListener(() -> apiDataViewModel.loadFeeds(FlickrActivity.this, ""));
 
 		// Initialize ViewModel
 		apiDataViewModel = ViewModelProviders.of(this).get(ApiDataViewModel.class);
-		apiDataViewModel.getLiveData(this).observe(this, new Observer<DataWrapper<FlickrFeed>>() {
-			@Override
-			public void onChanged (@Nullable final DataWrapper<FlickrFeed> flickrFeedDataWrapper) {
+		apiDataViewModel.getLiveData(this).observe(this, flickrFeedDataWrapper -> {
 
-				// Update adapter
-				feedAdapter.updateData(flickrFeedDataWrapper.getData());
+			// Update adapter
+			feedAdapter.updateData(flickrFeedDataWrapper.getData());
 
-				// Update status
-				switch (flickrFeedDataWrapper.getStatus()){
-					case NONE:
-						swipeRefreshLayout.setRefreshing(false);
-						break;
-					case LOADING:
-						swipeRefreshLayout.setRefreshing(true);
-						break;
-					case ERROR:
-						swipeRefreshLayout.setRefreshing(false);
-						Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, Snackbar.LENGTH_SHORT);
-						break;
-				}
+			// Update status
+			switch (flickrFeedDataWrapper.getStatus()){
+				case NONE:
+					swipeRefreshLayout.setRefreshing(false);
+					break;
+				case LOADING:
+					swipeRefreshLayout.setRefreshing(true);
+					break;
+				case ERROR:
+					swipeRefreshLayout.setRefreshing(false);
+					Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, Snackbar.LENGTH_SHORT);
+					break;
 			}
 		});
 	}

@@ -16,15 +16,12 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
-import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.model.FlickrFeed;
@@ -33,9 +30,7 @@ import org.apache.commons.text.WordUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -126,19 +121,16 @@ public class DetailsActivity extends AppCompatActivity {
 			for (final String tag : tags){
 				Chip chip = new Chip(feedTags.getContext());
 				chip.setText(tag);
-				chip.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick (final View v) {
-						String escapedQuery = null;
-						try {
-							escapedQuery = URLEncoder.encode(tag, "UTF-8");
-						} catch (UnsupportedEncodingException e) {
-							e.printStackTrace();
-						}
-						Uri uri = Uri.parse("http://www.google.com/#q=" + escapedQuery);
-						Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-						startActivity(intent);
+				chip.setOnClickListener(v -> {
+					String escapedQuery = null;
+					try {
+						escapedQuery = URLEncoder.encode(tag, "UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
 					}
+					Uri uri = Uri.parse("http://www.google.com/#q=" + escapedQuery);
+					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+					startActivity(intent);
 				});
 				feedTags.addView(chip);
 			}
@@ -215,28 +207,22 @@ public class DetailsActivity extends AppCompatActivity {
 		// Text Recognizer
 		FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
 		detector.processImage(image)
-						.addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
-							@Override
-							public void onSuccess(FirebaseVisionText firebaseVisionText) {
+						.addOnSuccessListener(firebaseVisionText -> {
 
-								// Task completed successfully
-								if (firebaseVisionText.getText() == null || firebaseVisionText.getText().isEmpty()){
-									firebaseTextRecognizerValue.setText(getResources().getString(R.string.firebase_no_results));
-									processFirebaseImageLabeler(bitmap);
-								} else {
-									firebaseTextRecognizerValue.setText(firebaseVisionText.getText());
-									processFirebaseImageLabeler(bitmap);
-								}
+							// Task completed successfully
+							if (firebaseVisionText.getText() == null || firebaseVisionText.getText().isEmpty()){
+								firebaseTextRecognizerValue.setText(getResources().getString(R.string.firebase_no_results));
+								processFirebaseImageLabeler(bitmap);
+							} else {
+								firebaseTextRecognizerValue.setText(firebaseVisionText.getText());
+								processFirebaseImageLabeler(bitmap);
 							}
 						})
 						.addOnFailureListener(
-								new OnFailureListener() {
-									@Override
-									public void onFailure(@NonNull Exception e) {
-										// Task failed with an exception
-										firebaseTextRecognizerValue.setText(getResources().getString(R.string.firebase_server_error));
-										processFirebaseImageLabeler(bitmap);
-									}
+								e -> {
+									// Task failed with an exception
+									firebaseTextRecognizerValue.setText(getResources().getString(R.string.firebase_server_error));
+									processFirebaseImageLabeler(bitmap);
 								});
 	}
 
@@ -252,35 +238,29 @@ public class DetailsActivity extends AppCompatActivity {
 		// Image Labeler
 		FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance().getOnDeviceImageLabeler();
 		labeler.processImage(image)
-				.addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
-					@Override
-					public void onSuccess(List<FirebaseVisionImageLabel> labels) {
+				.addOnSuccessListener(labels -> {
 
-						// Task completed successfully
-						String description = "";
-						for (int i = 0 ; i < labels.size() ; i++) {
+					// Task completed successfully
+					String description = "";
+					for (int i = 0 ; i < labels.size() ; i++) {
 
-							FirebaseVisionImageLabel label = labels.get(i);
-							String text = label.getText();
-							float confidence = label.getConfidence();
-							if (i == 0){
-								description = description.concat(text + " - " + confidence * 100 + "%");
-							} else {
-								description = description.concat("\n" + text + " - " + confidence * 100 + "%");
-							}
+						FirebaseVisionImageLabel label = labels.get(i);
+						String text = label.getText();
+						float confidence = label.getConfidence();
+						if (i == 0){
+							description = description.concat(text + " - " + confidence * 100 + "%");
+						} else {
+							description = description.concat("\n" + text + " - " + confidence * 100 + "%");
 						}
+					}
 
-						firebaseLabelImageValue.setText(description);
-						supportStartPostponedEnterTransition();		// Proceed with enter transition
-					}
+					firebaseLabelImageValue.setText(description);
+					supportStartPostponedEnterTransition();		// Proceed with enter transition
 				})
-				.addOnFailureListener(new OnFailureListener() {
-					@Override
-					public void onFailure(@NonNull Exception e) {
-						// Task failed with an exception
-						firebaseLabelImageValue.setText(getResources().getString(R.string.firebase_server_error));
-						supportStartPostponedEnterTransition();		// Proceed with enter transition
-					}
+				.addOnFailureListener(e -> {
+					// Task failed with an exception
+					firebaseLabelImageValue.setText(getResources().getString(R.string.firebase_server_error));
+					supportStartPostponedEnterTransition();		// Proceed with enter transition
 				});
 	}
 

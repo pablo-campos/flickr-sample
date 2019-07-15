@@ -39,12 +39,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
 	public void initialize(final FlickrFeed feed, final FeedClickListener feedClickListener){
 
-		cardView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick (final View v) {
-				feedClickListener.onClick(cardView, feed);
-			}
-		});
+		cardView.setOnClickListener(v -> feedClickListener.onClick(cardView, feed));
 
 		Glide.with(cardView.getContext())
 				.asBitmap()

@@ -55,7 +55,7 @@ public class ApiDataViewModel extends ViewModel {
 
 				// Stop refresh status
 				dataWrapper.setStatus(DataWrapper.Status.ERROR);
-				dataWrapper.setData(new ArrayList<FlickrFeed>());
+				dataWrapper.setData(new ArrayList<>());
 				liveData.postValue(dataWrapper);
 			}
 		});
