@@ -11,33 +11,32 @@
 
 	<androidx.appcompat.widget.Toolbar
 		android:id="@+id/toolbar"
-		android:layout_alignParentTop="true"
-		android:minHeight="?attr/actionBarSize"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"/>
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:minHeight="?attr/actionBarSize"/>
 
-	<RelativeLayout
-		android:layout_below="@id/toolbar"
+	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_below="@id/toolbar"
 		android:animateLayoutChanges="true">
 
 		<androidx.cardview.widget.CardView
 			android:id="@+id/card_view"
-			android:background="#000000"
-			android:layout_centerVertical="true"
-			android:transitionName="feed_image"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			app:cardCornerRadius="@dimen/card_radius"
-			android:layout_marginTop="@dimen/large_margin"
-			android:layout_marginBottom="@dimen/large_margin"
 			android:layout_marginStart="@dimen/medium_margin"
+			android:layout_marginTop="@dimen/large_margin"
 			android:layout_marginEnd="@dimen/medium_margin"
+			android:layout_marginBottom="@dimen/large_margin"
+			android:animateLayoutChanges="true"
+			android:background="#000000"
 			android:foreground="?android:attr/selectableItemBackground"
-			app:cardPreventCornerOverlap="false"
+			android:transitionName="feed_image"
 			app:cardBackgroundColor="@android:color/black"
-			android:animateLayoutChanges="true">
+			app:cardCornerRadius="@dimen/card_radius"
+			app:cardPreventCornerOverlap="false">
 
 			<RelativeLayout
 				android:layout_width="match_parent"
@@ -46,130 +45,124 @@
 
 				<ImageView
 					android:id="@+id/feed_image"
-					android:background="#000000"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:scaleType="fitXY"
 					android:adjustViewBounds="true"
-					android:animateLayoutChanges="false"/>
+					android:animateLayoutChanges="false"
+					android:background="#000000"
+					android:scaleType="fitXY"/>
 
-				<LinearLayout
-					android:layout_alignBottom="@id/feed_image"
+				<TextView
+					android:id="@+id/feed_title"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:layout_alignBottom="@id/feed_image"
 					android:background="@drawable/gradient_background"
-					android:padding="@dimen/large_margin">
-
-					<TextView
-						android:id="@+id/feed_title"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textSize="@dimen/large_font_size"
-						tools:text="Label"
-						android:textStyle="bold"
-						android:textColor="@color/feed_title_text_color"/>
-
-				</LinearLayout>
+					android:padding="@dimen/large_margin"
+					android:textColor="@color/feed_title_text_color"
+					android:textSize="@dimen/large_font_size"
+					android:textStyle="bold"
+					tools:text="Label"/>
 
 				<ScrollView
-					android:layout_below="@id/feed_image"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:layout_below="@id/feed_image"
 					android:animateLayoutChanges="true">
 
 					<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:paddingTop="@dimen/medium_margin"
-						android:paddingBottom="@dimen/medium_margin"
+						android:animateLayoutChanges="true"
 						android:orientation="vertical"
-						android:animateLayoutChanges="true">
+						android:paddingTop="@dimen/medium_margin"
+						android:paddingBottom="@dimen/large_margin">
 
 						<TextView
 							android:id="@+id/feed_author"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="@dimen/medium_font_size"
 							android:layout_marginStart="@dimen/medium_margin"
 							android:layout_marginEnd="@dimen/medium_margin"
+							android:text="label"
 							android:textColor="@color/feed_title_text_color"
-							android:textStyle="bold"
-							android:text="label"/>
+							android:textSize="@dimen/medium_font_size"
+							android:textStyle="bold"/>
 
 						<TextView
 							android:id="@+id/feed_date_taken"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="@dimen/xsmall_font_size"
 							android:layout_marginStart="@dimen/xlarge_margin"
 							android:layout_marginEnd="@dimen/medium_margin"
+							android:text="label"
 							android:textColor="@color/feed_title_text_color"
-							android:text="label"/>
+							android:textSize="@dimen/xsmall_font_size"/>
 
 						<TextView
 							android:id="@+id/feed_date_published"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="@dimen/xsmall_font_size"
 							android:layout_marginStart="@dimen/xlarge_margin"
 							android:layout_marginEnd="@dimen/medium_margin"
+							android:text="label"
 							android:textColor="@color/feed_title_text_color"
-							android:text="label"/>
+							android:textSize="@dimen/xsmall_font_size"/>
 
 						<TextView
 							android:id="@+id/firebase_text_recognizer"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="@dimen/medium_font_size"
-							android:layout_marginTop="@dimen/medium_margin"
 							android:layout_marginStart="@dimen/medium_margin"
+							android:layout_marginTop="@dimen/medium_margin"
 							android:layout_marginEnd="@dimen/medium_margin"
+							android:text="..."
 							android:textColor="@color/feed_title_text_color"
-							android:textStyle="bold"
-							android:text="..."/>
+							android:textSize="@dimen/medium_font_size"
+							android:textStyle="bold"/>
 
 						<TextView
 							android:id="@+id/firebase_text_recognizer_value"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="@dimen/xsmall_font_size"
 							android:layout_marginStart="@dimen/xlarge_margin"
 							android:layout_marginEnd="@dimen/medium_margin"
+							android:text="..."
 							android:textColor="@color/feed_title_text_color"
-							android:text="..."/>
+							android:textSize="@dimen/xsmall_font_size"/>
 
 						<TextView
 							android:id="@+id/firebase_label_image"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="@dimen/medium_font_size"
-							android:layout_marginTop="@dimen/medium_margin"
 							android:layout_marginStart="@dimen/medium_margin"
+							android:layout_marginTop="@dimen/medium_margin"
 							android:layout_marginEnd="@dimen/medium_margin"
+							android:text="..."
 							android:textColor="@color/feed_title_text_color"
-							android:textStyle="bold"
-							android:text="..."/>
+							android:textSize="@dimen/medium_font_size"
+							android:textStyle="bold"/>
 
 						<TextView
 							android:id="@+id/firebase_label_image_value"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textSize="@dimen/xsmall_font_size"
 							android:layout_marginStart="@dimen/xlarge_margin"
 							android:layout_marginEnd="@dimen/medium_margin"
+							android:text="..."
 							android:textColor="@color/feed_title_text_color"
-							android:text="..."/>
+							android:textSize="@dimen/xsmall_font_size"/>
 
 						<TextView
 							android:id="@+id/feed_tags_label"
-							android:textSize="@dimen/medium_font_size"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:textColor="@color/feed_title_text_color"
 							android:layout_margin="@dimen/medium_margin"
 							android:layout_marginBottom="0dp"
-							android:textStyle="bold"
-							android:text="label"/>
+							android:text="label"
+							android:textColor="@color/feed_title_text_color"
+							android:textSize="@dimen/medium_font_size"
+							android:textStyle="bold"/>
 
 						<com.google.android.material.chip.ChipGroup
 							android:id="@+id/chip_group"
@@ -186,7 +179,7 @@
 
 		</androidx.cardview.widget.CardView>
 
-	</RelativeLayout>
+	</ScrollView>
 
 </RelativeLayout>
 
