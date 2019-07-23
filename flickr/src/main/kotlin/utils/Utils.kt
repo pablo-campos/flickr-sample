@@ -41,8 +41,8 @@ object Utils {
 		// Test internet connection
 		val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 		val netInfo = cm.activeNetworkInfo
-		if (netInfo != null && netInfo.isConnectedOrConnecting) {
-			return true    // We have internet
+		return if (netInfo != null && netInfo.isConnected) {
+			true    // We have internet
 		} else {
 
 			// No internet, display error dialog
@@ -52,8 +52,7 @@ object Utils {
 					.setPositiveButton(context.resources.getString(android.R.string.ok), null)
 					.setIconAttribute(android.R.attr.alertDialogIcon)
 			builder.show()
-
-			return false
+			false
 		}
 	}
 
