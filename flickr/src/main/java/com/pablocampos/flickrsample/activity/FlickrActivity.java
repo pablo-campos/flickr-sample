@@ -13,7 +13,6 @@ import com.pablocampos.flickrsample.adapter.FeedAdapter;
 import com.pablocampos.flickrsample.adapter.FeedClickListener;
 import com.pablocampos.flickrsample.adapter.FeedItemAnimator;
 import com.pablocampos.flickrsample.model.ApiDataViewModel;
-import com.pablocampos.flickrsample.utils.Utils;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -21,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import utils.Utils;
 
 public class FlickrActivity extends AppCompatActivity {
 
@@ -52,7 +52,7 @@ public class FlickrActivity extends AppCompatActivity {
 			public boolean onQueryTextSubmit(String query) {
 
 				// If search view is empty, let's update the adapter with zero items, if not, let's request a new search query:
-				if (Utils.checkInternet(FlickrActivity.this)){		// Check internet connection and then perform query
+				if (Utils.INSTANCE.checkInternet(FlickrActivity.this)){		// Check internet connection and then perform query
 					apiDataViewModel.loadFeeds(FlickrActivity.this, query);
 				}
 

@@ -35,9 +35,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.palette.graphics.Palette;
-
-import static com.pablocampos.flickrsample.utils.Utils.createPaletteSync;
-import static com.pablocampos.flickrsample.utils.Utils.manipulateColor;
+import utils.Utils;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -167,7 +165,7 @@ public class DetailsActivity extends AppCompatActivity {
 		// Generate the palette and get the vibrant swatch
 		// See the createPaletteSync() method
 		// from the code snippet above
-		Palette palette = createPaletteSync(bitmap);
+		Palette palette = Utils.INSTANCE.createPaletteSync(bitmap);
 		Palette.Swatch paletteSwatch = palette.getVibrantSwatch() != null ? palette.getVibrantSwatch() : palette.getLightVibrantSwatch();
 
 		Toolbar toolbar = findViewById(R.id.toolbar);
@@ -181,7 +179,7 @@ public class DetailsActivity extends AppCompatActivity {
 		if(paletteSwatch != null){
 			actionBarTextColor = paletteSwatch.getTitleTextColor();
 			actionBarBackgroundColor = paletteSwatch.getRgb();
-			statusBarBackgroundColor = manipulateColor(actionBarBackgroundColor, 0.8f);
+			statusBarBackgroundColor = Utils.INSTANCE.manipulateColor(actionBarBackgroundColor, 0.8f);
 		}
 
 		// Update toolbar colors:

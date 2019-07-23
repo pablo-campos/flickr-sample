@@ -43,6 +43,11 @@ android {
 			isMinifyEnabled = false
 		}
 	}
+
+	sourceSets {
+		val main by getting
+		main.java.srcDirs("src/main/kotlin")
+	}
 }
 
 dependencies {
