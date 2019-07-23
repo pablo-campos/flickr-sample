@@ -12,7 +12,6 @@ import com.pablocampos.flickrsample.R;
 import com.pablocampos.flickrsample.adapter.FeedAdapter;
 import com.pablocampos.flickrsample.adapter.FeedClickListener;
 import com.pablocampos.flickrsample.adapter.FeedItemAnimator;
-import com.pablocampos.flickrsample.model.ApiDataViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -20,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import model.ApiDataViewModel;
 import utils.Utils;
 
 public class FlickrActivity extends AppCompatActivity {

@@ -24,7 +24,6 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.pablocampos.flickrsample.R;
-import com.pablocampos.flickrsample.model.FlickrFeed;
 
 import org.apache.commons.text.WordUtils;
 
@@ -35,6 +34,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.palette.graphics.Palette;
+import model.FlickrFeed;
 import utils.Utils;
 
 /**

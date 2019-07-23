@@ -1,7 +1,6 @@
 package com.pablocampos.flickrsample.network;
 
-import com.pablocampos.flickrsample.model.ApiData;
-
+import model.ApiData;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

@@ -2,7 +2,7 @@ package com.pablocampos.flickrsample.adapter;
 
 import android.view.View;
 
-import com.pablocampos.flickrsample.model.FlickrFeed;
+import model.FlickrFeed;
 
 public interface FeedClickListener {
 

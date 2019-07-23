@@ -6,12 +6,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.pablocampos.flickrsample.R;
-import com.pablocampos.flickrsample.model.FlickrFeed;
 
 import org.apache.commons.text.WordUtils;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import model.FlickrFeed;
 
 public class FeedViewHolder extends RecyclerView.ViewHolder {
 

@@ -5,13 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pablocampos.flickrsample.R;
-import com.pablocampos.flickrsample.model.FlickrFeed;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import model.FlickrFeed;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
 
