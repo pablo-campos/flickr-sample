@@ -16,7 +16,7 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
 
-		<activity android:name=".activity.FlickrActivity">
+		<activity android:name="activity.FlickrActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 
@@ -25,7 +25,7 @@
 		</activity>
 
 		<activity
-			android:name=".activity.DetailsActivity"
+			android:name="activity.DetailsActivity"
 			android:theme="@style/DetailsTheme"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:label="@string/title_activity_details"/>

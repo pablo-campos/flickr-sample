@@ -1,4 +1,4 @@
-package com.pablocampos.flickrsample.activity;
+package activity;
 
 
 import android.view.View;
