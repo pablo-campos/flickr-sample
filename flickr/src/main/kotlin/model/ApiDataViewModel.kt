@@ -39,7 +39,7 @@ class ApiDataViewModel : ViewModel() {
 			override fun onResponse(call: Call<ApiData>, response: Response<ApiData>) {
 
 				// Stop refresh status and update data
-				dataWrapper!!.status = DataWrapper.Status.NONE
+				dataWrapper!!.status = DataWrapper.Status.IDDLE
 				dataWrapper!!.data = response.body()!!.items
 				liveData!!.postValue(dataWrapper)
 			}

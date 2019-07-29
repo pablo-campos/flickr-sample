@@ -89,14 +89,16 @@ class FlickrActivity : AppCompatActivity() {
 		setContentView(R.layout.activity_flickr)
 
 		// Initialize grid view
-		feedAdapter = FeedAdapter(object : FeedClickListener {
+		val feedClickListener = object : FeedClickListener {
 			override fun onClick(view: View, flickrFeed: FlickrFeed) {
 				val intent = Intent(this@FlickrActivity, DetailsActivity::class.java)
 				intent.putExtra(DetailsActivity.FLICKR_FEED, flickrFeed)
 				val options = ActivityOptions.makeSceneTransitionAnimation(this@FlickrActivity, view, "feed_image")
 				startActivity(intent, options.toBundle())
 			}
-		})
+		}
+
+		feedAdapter = FeedAdapter(feedClickListener)
 
 		recyclerView = findViewById(R.id.feedGrid)
 		recyclerView.setHasFixedSize(true)
@@ -117,7 +119,7 @@ class FlickrActivity : AppCompatActivity() {
 
 			// Update status
 			when (flickrFeedDataWrapper.status) {
-				DataWrapper.Status.NONE -> swipeRefreshLayout.isRefreshing = false
+				DataWrapper.Status.IDDLE -> swipeRefreshLayout.isRefreshing = false
 				DataWrapper.Status.LOADING -> swipeRefreshLayout.isRefreshing = true
 				DataWrapper.Status.ERROR -> {
 					swipeRefreshLayout.isRefreshing = false

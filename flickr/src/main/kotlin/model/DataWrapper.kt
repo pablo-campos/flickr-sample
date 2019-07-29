@@ -10,7 +10,7 @@ class DataWrapper<T> {
 
 
 	enum class Status {
-		NONE,
+		IDDLE,
 		LOADING,
 		ERROR
 	}
