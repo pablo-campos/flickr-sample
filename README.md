@@ -19,12 +19,12 @@ You should be able to clone the project and run it on Android Studio.
 * Firebase - Crashlytics.
 * Firebase - ML Kit - Text Recognition.
 * Firebase - ML Kit - Image Labeling.
+* LeakCanary [https://square.github.io/leakcanary/].
+* Chuck [https://github.com/jgilfelt/chuck].
 
 ## A few enhancements to keep in mind:
-* Continue adding details on details screen.
 * Add unit testing.
 * Add an empty view in cases: no query requested by user OR no search results for user's requested query.
-* Add a loading dialog/view when a query is being performed.
 
 ## Known Bugs:
 
