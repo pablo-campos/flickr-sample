@@ -64,7 +64,7 @@ dependencies {
 	androidTestImplementation(Libs.espresso_core)
 
 	// Apache Commons Utils
-	compile(Libs.commons_text)
+	implementation(Libs.commons_text)
 
 	// Glide
 	implementation(Libs.glide)
@@ -85,6 +85,8 @@ dependencies {
 	implementation(Libs.firebase_core)
 	implementation(Libs.firebase_ml_vision)
 	implementation(Libs.firebase_ml_vision_image_label_model)
+	implementation(Libs.firebase_analytics)
+	implementation(Libs.firebase_messaging)
 
 	// Crashlytics
 	implementation(Libs.crashlytics)

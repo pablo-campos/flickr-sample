@@ -6,6 +6,7 @@ import adapter.FeedItemAnimator
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,9 +17,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
 import com.pablocampos.flickrsample.R
+import com.pablocampos.flickrsample.firebase.FirebaseTokenGenerator
 import model.ApiDataViewModel
 import model.DataWrapper
 import model.FlickrFeed
@@ -27,6 +31,7 @@ import utils.Utils
 @Suppress("UNNECESSARY_NOT_NULL_ASSERTION")
 class FlickrActivity : AppCompatActivity() {
 
+	private val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
 
 	// LiveData ViewModel
 	private lateinit var apiDataViewModel: ApiDataViewModel
@@ -86,6 +91,12 @@ class FlickrActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		// Start IntentService to register this application with GCM.
+		if (checkPlayServices()) {
+			val intent = Intent(this, FirebaseTokenGenerator::class.java)
+			startService(intent)
+		}
+
 		setContentView(R.layout.activity_flickr)
 
 		// Initialize grid view
@@ -127,6 +138,27 @@ class FlickrActivity : AppCompatActivity() {
 				}
 			}
 		})
+	}
+
+
+	/**
+	 * Check the device to make sure it has the Google Play Services APK. If
+	 * it doesn't, display a dialog that allows users to download the APK from
+	 * the Google Play Store or enable it in the device's system settings.
+	 */
+	private fun checkPlayServices(): Boolean {
+		val apiAvailability = GoogleApiAvailability.getInstance()
+		val resultCode = apiAvailability.isGooglePlayServicesAvailable(this)
+		if (resultCode != ConnectionResult.SUCCESS) {
+			if (apiAvailability.isUserResolvableError(resultCode)) {
+				apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST).show()
+			} else {
+				Log.i("Flickr App", "This device is not supported.")
+
+			}
+			return false
+		}
+		return true
 	}
 
 }

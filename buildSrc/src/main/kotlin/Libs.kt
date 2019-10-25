@@ -5,170 +5,176 @@
  *   `$ ./gradlew syncLibs`
  * to update this file */
 object Libs {
-    /**
-     * [appcompat website](http://developer.android.com/tools/extras/support-library.html) */
-    const val appcompat: String = "androidx.appcompat:appcompat:" + Versions.appcompat
+	/**
+	 * [appcompat website](http://developer.android.com/tools/extras/support-library.html) */
+	const val appcompat: String = "androidx.appcompat:appcompat:" + Versions.appcompat
 
-    /**
-     * [cardview website](http://developer.android.com/tools/extras/support-library.html) */
-    const val cardview: String = "androidx.cardview:cardview:" + Versions.cardview
+	/**
+	 * [cardview website](http://developer.android.com/tools/extras/support-library.html) */
+	const val cardview: String = "androidx.cardview:cardview:" + Versions.cardview
 
-    /**
-     * [constraintlayout website](http://tools.android.com) */
-    const val constraintlayout: String =
-            "androidx.constraintlayout:constraintlayout:" + Versions.constraintlayout
+	/**
+	 * [constraintlayout website](http://tools.android.com) */
+	const val constraintlayout: String =
+			"androidx.constraintlayout:constraintlayout:" + Versions.constraintlayout
 
-    /**
-     * [legacy-support-v4 website](http://developer.android.com/tools/extras/support-library.html) */
-    const val legacy_support_v4: String =
-            "androidx.legacy:legacy-support-v4:" + Versions.legacy_support_v4
+	/**
+	 * [legacy-support-v4 website](http://developer.android.com/tools/extras/support-library.html) */
+	const val legacy_support_v4: String =
+			"androidx.legacy:legacy-support-v4:" + Versions.legacy_support_v4
 
-    /**
-     * [lifecycle-extensions website](https://developer.android.com/topic/libraries/architecture/index.html) */
-    const val lifecycle_extensions: String =
-            "androidx.lifecycle:lifecycle-extensions:" + Versions.lifecycle_extensions
+	/**
+	 * [lifecycle-extensions website](https://developer.android.com/topic/libraries/architecture/index.html) */
+	const val lifecycle_extensions: String =
+			"androidx.lifecycle:lifecycle-extensions:" + Versions.lifecycle_extensions
 
-    /**
-     * [palette website](http://developer.android.com/tools/extras/support-library.html) */
-    const val palette: String = "androidx.palette:palette:" + Versions.palette
+	/**
+	 * [palette website](http://developer.android.com/tools/extras/support-library.html) */
+	const val palette: String = "androidx.palette:palette:" + Versions.palette
 
-    /**
-     * [recyclerview website](http://developer.android.com/tools/extras/support-library.html) */
-    const val recyclerview: String = "androidx.recyclerview:recyclerview:" + Versions.recyclerview
+	/**
+	 * [recyclerview website](http://developer.android.com/tools/extras/support-library.html) */
+	const val recyclerview: String = "androidx.recyclerview:recyclerview:" + Versions.recyclerview
 
-    /**
-     * [espresso-core website](https://developer.android.com/testing) */
-    const val espresso_core: String =
-            "androidx.test.espresso:espresso-core:" + Versions.espresso_core
+	/**
+	 * [espresso-core website](https://developer.android.com/testing) */
+	const val espresso_core: String =
+			"androidx.test.espresso:espresso-core:" + Versions.espresso_core
 
-    /**
-     * [rules website](https://developer.android.com/testing) */
-    const val androidx_test_rules: String = "androidx.test:rules:" + Versions.androidx_test
+	/**
+	 * [rules website](https://developer.android.com/testing) */
+	const val androidx_test_rules: String = "androidx.test:rules:" + Versions.androidx_test
 
-    /**
-     * [runner website](https://developer.android.com/testing) */
-    const val androidx_test_runner: String = "androidx.test:runner:" + Versions.androidx_test
+	/**
+	 * [runner website](https://developer.android.com/testing) */
+	const val androidx_test_runner: String = "androidx.test:runner:" + Versions.androidx_test
 
-    /**
-     * [aapt2 website](https://developer.android.com/studio) */
-    const val aapt2: String = "com.android.tools.build:aapt2:" + Versions.aapt2
+	/**
+	 * [aapt2 website](https://developer.android.com/studio) */
+	const val aapt2: String = "com.android.tools.build:aapt2:" + Versions.aapt2
 
-    /**
-     * [gradle website](https://developer.android.com/studio) */
-    const val com_android_tools_build_gradle: String =
-            "com.android.tools.build:gradle:" + Versions.com_android_tools_build_gradle
+	/**
+	 * [gradle website](https://developer.android.com/studio) */
+	const val com_android_tools_build_gradle: String =
+			"com.android.tools.build:gradle:" + Versions.com_android_tools_build_gradle
 
-    /**
-     * [lint-gradle website](https://developer.android.com/studio) */
-    const val lint_gradle: String = "com.android.tools.lint:lint-gradle:" + Versions.lint_gradle
+	/**
+	 * [lint-gradle website](https://developer.android.com/studio) */
+	const val lint_gradle: String = "com.android.tools.lint:lint-gradle:" + Versions.lint_gradle
 
-    const val crashlytics: String =
-            "com.crashlytics.sdk.android:crashlytics:" + Versions.crashlytics
+	const val crashlytics: String =
+			"com.crashlytics.sdk.android:crashlytics:" + Versions.crashlytics
 
-    /**
-     * [compiler website](https://github.com/bumptech/glide) */
-    const val com_github_bumptech_glide_compiler: String =
-            "com.github.bumptech.glide:compiler:" + Versions.com_github_bumptech_glide
+	/**
+	 * [compiler website](https://github.com/bumptech/glide) */
+	const val com_github_bumptech_glide_compiler: String =
+			"com.github.bumptech.glide:compiler:" + Versions.com_github_bumptech_glide
 
-    /**
-     * [glide website](https://github.com/bumptech/glide) */
-    const val glide: String =
-            "com.github.bumptech.glide:glide:" + Versions.com_github_bumptech_glide
+	/**
+	 * [glide website](https://github.com/bumptech/glide) */
+	const val glide: String =
+			"com.github.bumptech.glide:glide:" + Versions.com_github_bumptech_glide
 
-    const val oss_licenses_plugin: String =
-            "com.google.android.gms:oss-licenses-plugin:" + Versions.oss_licenses_plugin
+	const val oss_licenses_plugin: String =
+			"com.google.android.gms:oss-licenses-plugin:" + Versions.oss_licenses_plugin
 
-    const val play_services_oss_licenses: String =
-            "com.google.android.gms:play-services-oss-licenses:" + Versions.play_services_oss_licenses
+	const val play_services_oss_licenses: String =
+			"com.google.android.gms:play-services-oss-licenses:" + Versions.play_services_oss_licenses
 
-    /**
-     * [material website](http://developer.android.com/tools/extras/support-library.html) */
-    const val material: String = "com.google.android.material:material:" + Versions.material
+	/**
+	 * [material website](http://developer.android.com/tools/extras/support-library.html) */
+	const val material: String = "com.google.android.material:material:" + Versions.material
 
-    const val firebase_core: String = "com.google.firebase:firebase-core:" + Versions.firebase_core
+	const val firebase_core: String = "com.google.firebase:firebase-core:" + Versions.firebase_core
 
-    const val firebase_ml_vision_image_label_model: String =
-            "com.google.firebase:firebase-ml-vision-image-label-model:" + Versions.firebase_ml_vision_image_label_model
+	const val firebase_ml_vision_image_label_model: String =
+			"com.google.firebase:firebase-ml-vision-image-label-model:" + Versions.firebase_ml_vision_image_label_model
 
-    const val firebase_ml_vision: String =
-            "com.google.firebase:firebase-ml-vision:" + Versions.firebase_ml_vision
+	const val firebase_ml_vision: String =
+			"com.google.firebase:firebase-ml-vision:" + Versions.firebase_ml_vision
 
-    const val google_services: String = "com.google.gms:google-services:" + Versions.google_services
+	// Add the Firebase SDK for Google Analytics
+	const val firebase_analytics: String = "com.google.firebase:firebase-analytics:" + Versions.firebase_analytics
 
-    /**
-     * [library-no-op website](https://github.com/jgilfelt/chuck) */
-    const val library_no_op: String =
-            "com.readystatesoftware.chuck:library-no-op:" + Versions.com_readystatesoftware_chuck
+	// Add the SDK for Firebase Cloud Messaging
+	const val firebase_messaging: String = "com.google.firebase:firebase-messaging:" + Versions.firebase_messaging
 
-    /**
-     * [library website](https://github.com/jgilfelt/chuck) */
-    const val library: String =
-            "com.readystatesoftware.chuck:library:" + Versions.com_readystatesoftware_chuck
+	const val google_services: String = "com.google.gms:google-services:" + Versions.google_services
 
-    /**
-     * [leakcanary-android website](http://github.com/square/leakcanary/) */
-    const val leakcanary_android: String =
-            "com.squareup.leakcanary:leakcanary-android:" + Versions.leakcanary_android
+	/**
+	 * [library-no-op website](https://github.com/jgilfelt/chuck) */
+	const val library_no_op: String =
+			"com.readystatesoftware.chuck:library-no-op:" + Versions.com_readystatesoftware_chuck
 
-    /**
-     * [converter-gson website](https://github.com/square/retrofit/) */
-    const val converter_gson: String =
-            "com.squareup.retrofit2:converter-gson:" + Versions.com_squareup_retrofit2
+	/**
+	 * [library website](https://github.com/jgilfelt/chuck) */
+	const val library: String =
+			"com.readystatesoftware.chuck:library:" + Versions.com_readystatesoftware_chuck
 
-    /**
-     * [retrofit website](https://github.com/square/retrofit/) */
-    const val retrofit: String =
-            "com.squareup.retrofit2:retrofit:" + Versions.com_squareup_retrofit2
+	/**
+	 * [leakcanary-android website](http://github.com/square/leakcanary/) */
+	const val leakcanary_android: String =
+			"com.squareup.leakcanary:leakcanary-android:" + Versions.leakcanary_android
 
-    const val io_fabric_tools_gradle: String =
-            "io.fabric.tools:gradle:" + Versions.io_fabric_tools_gradle
+	/**
+	 * [converter-gson website](https://github.com/square/retrofit/) */
+	const val converter_gson: String =
+			"com.squareup.retrofit2:converter-gson:" + Versions.com_squareup_retrofit2
 
-    const val jmfayard_github_io_gradle_kotlin_dsl_libs_gradle_plugin: String =
-            "jmfayard.github.io.gradle-kotlin-dsl-libs:jmfayard.github.io.gradle-kotlin-dsl-libs.gradle.plugin:" + Versions.jmfayard_github_io_gradle_kotlin_dsl_libs_gradle_plugin
+	/**
+	 * [retrofit website](https://github.com/square/retrofit/) */
+	const val retrofit: String =
+			"com.squareup.retrofit2:retrofit:" + Versions.com_squareup_retrofit2
 
-    /**
-     * [junit website](http://junit.org) */
-    const val junit: String = "junit:junit:" + Versions.junit
+	const val io_fabric_tools_gradle: String =
+			"io.fabric.tools:gradle:" + Versions.io_fabric_tools_gradle
 
-    /**
-     * [commons-text website](http://commons.apache.org/proper/commons-text) */
-    const val commons_text: String = "org.apache.commons:commons-text:" + Versions.commons_text
+	const val jmfayard_github_io_gradle_kotlin_dsl_libs_gradle_plugin: String =
+			"jmfayard.github.io.gradle-kotlin-dsl-libs:jmfayard.github.io.gradle-kotlin-dsl-libs.gradle.plugin:" + Versions.jmfayard_github_io_gradle_kotlin_dsl_libs_gradle_plugin
 
-    const val org_gradle_kotlin_kotlin_dsl_gradle_plugin: String =
-            "org.gradle.kotlin.kotlin-dsl:org.gradle.kotlin.kotlin-dsl.gradle.plugin:" + Versions.org_gradle_kotlin_kotlin_dsl_gradle_plugin
+	/**
+	 * [junit website](http://junit.org) */
+	const val junit: String = "junit:junit:" + Versions.junit
 
-    /**
-     * [kotlin-android-extensions-runtime website](https://kotlinlang.org/) */
-    const val kotlin_android_extensions_runtime: String =
-            "org.jetbrains.kotlin:kotlin-android-extensions-runtime:" + Versions.kotlin_android_extensions_runtime
+	/**
+	 * [commons-text website](http://commons.apache.org/proper/commons-text) */
+	const val commons_text: String = "org.apache.commons:commons-text:" + Versions.commons_text
 
-    /**
-     * [kotlin-android-extensions website](https://kotlinlang.org/) */
-    const val kotlin_android_extensions: String =
-            "org.jetbrains.kotlin:kotlin-android-extensions:" + Versions.kotlin_android_extensions
+	const val org_gradle_kotlin_kotlin_dsl_gradle_plugin: String =
+			"org.gradle.kotlin.kotlin-dsl:org.gradle.kotlin.kotlin-dsl.gradle.plugin:" + Versions.org_gradle_kotlin_kotlin_dsl_gradle_plugin
 
-    /**
-     * [kotlin-gradle-plugin website](https://kotlinlang.org/) */
-    const val kotlin_gradle_plugin: String =
-            "org.jetbrains.kotlin:kotlin-gradle-plugin:" + Versions.kotlin_gradle_plugin
+	/**
+	 * [kotlin-android-extensions-runtime website](https://kotlinlang.org/) */
+	const val kotlin_android_extensions_runtime: String =
+			"org.jetbrains.kotlin:kotlin-android-extensions-runtime:" + Versions.kotlin_android_extensions_runtime
 
-    /**
-     * [kotlin-reflect website](https://kotlinlang.org/) */
-    const val kotlin_reflect: String =
-            "org.jetbrains.kotlin:kotlin-reflect:" + Versions.kotlin_reflect
+	/**
+	 * [kotlin-android-extensions website](https://kotlinlang.org/) */
+	const val kotlin_android_extensions: String =
+			"org.jetbrains.kotlin:kotlin-android-extensions:" + Versions.kotlin_android_extensions
 
-    /**
-     * [kotlin-sam-with-receiver website](https://kotlinlang.org/) */
-    const val kotlin_sam_with_receiver: String =
-            "org.jetbrains.kotlin:kotlin-sam-with-receiver:" + Versions.kotlin_sam_with_receiver
+	/**
+	 * [kotlin-gradle-plugin website](https://kotlinlang.org/) */
+	const val kotlin_gradle_plugin: String =
+			"org.jetbrains.kotlin:kotlin-gradle-plugin:" + Versions.kotlin_gradle_plugin
 
-    /**
-     * [kotlin-scripting-compiler-embeddable website](https://kotlinlang.org/) */
-    const val kotlin_scripting_compiler_embeddable: String =
-            "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:" + Versions.kotlin_scripting_compiler_embeddable
+	/**
+	 * [kotlin-reflect website](https://kotlinlang.org/) */
+	const val kotlin_reflect: String =
+			"org.jetbrains.kotlin:kotlin-reflect:" + Versions.kotlin_reflect
 
-    /**
-     * [kotlin-stdlib-jdk8 website](https://kotlinlang.org/) */
-    const val kotlin_stdlib_jdk8: String =
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:" + Versions.kotlin_stdlib_jdk8
+	/**
+	 * [kotlin-sam-with-receiver website](https://kotlinlang.org/) */
+	const val kotlin_sam_with_receiver: String =
+			"org.jetbrains.kotlin:kotlin-sam-with-receiver:" + Versions.kotlin_sam_with_receiver
+
+	/**
+	 * [kotlin-scripting-compiler-embeddable website](https://kotlinlang.org/) */
+	const val kotlin_scripting_compiler_embeddable: String =
+			"org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:" + Versions.kotlin_scripting_compiler_embeddable
+
+	/**
+	 * [kotlin-stdlib-jdk8 website](https://kotlinlang.org/) */
+	const val kotlin_stdlib_jdk8: String =
+			"org.jetbrains.kotlin:kotlin-stdlib-jdk8:" + Versions.kotlin_stdlib_jdk8
 }
