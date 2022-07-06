@@ -19,8 +19,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.firebase.ml.vision.FirebaseVision
-import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.pablocampos.flickrsample.R
 import model.FlickrFeed
 import org.apache.commons.text.WordUtils
@@ -181,6 +179,9 @@ class DetailsActivity : AppCompatActivity() {
 	 */
 	fun processFirebaseTextRecognizer(bitmap: Bitmap) {
 
+       /* lateinit var functions: FirebaseFunctions
+        functions = Firebase.functions
+        
 		val image = FirebaseVisionImage.fromBitmap(bitmap)
 
 		// Text Recognizer
@@ -201,7 +202,9 @@ class DetailsActivity : AppCompatActivity() {
 					// Task failed with an exception
 					firebaseTextRecognizerValue.text = resources.getString(R.string.firebase_server_error)
 					processFirebaseImageLabeler(bitmap)
-				}
+				}*/
+
+        processFirebaseImageLabeler(bitmap)
 	}
 
 
@@ -210,7 +213,7 @@ class DetailsActivity : AppCompatActivity() {
 	 */
 	fun processFirebaseImageLabeler(bitmap: Bitmap) {
 
-		val image = FirebaseVisionImage.fromBitmap(bitmap)
+		/*val image = FirebaseVisionImage.fromBitmap(bitmap)
 
 		// Image Labeler
 		val labeler = FirebaseVision.getInstance().onDeviceImageLabeler
@@ -238,8 +241,30 @@ class DetailsActivity : AppCompatActivity() {
 					// Task failed with an exception
 					firebaseLabelImageValue.text = resources.getString(R.string.firebase_server_error)
 					supportStartPostponedEnterTransition()        // Proceed with enter transition
-				}
+				}*/
+
+        supportStartPostponedEnterTransition()        // Proceed with enter transition
 	}
+
+    private fun scaleBitmapDown(bitmap: Bitmap, maxDimension: Int): Bitmap {
+        val originalWidth = bitmap.width
+        val originalHeight = bitmap.height
+        var resizedWidth = maxDimension
+        var resizedHeight = maxDimension
+        if (originalHeight > originalWidth) {
+            resizedHeight = maxDimension
+            resizedWidth =
+                (resizedHeight * originalWidth.toFloat() / originalHeight.toFloat()).toInt()
+        } else if (originalWidth > originalHeight) {
+            resizedWidth = maxDimension
+            resizedHeight =
+                (resizedWidth * originalHeight.toFloat() / originalWidth.toFloat()).toInt()
+        } else if (originalHeight == originalWidth) {
+            resizedHeight = maxDimension
+            resizedWidth = maxDimension
+        }
+        return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false)
+    }
 
 	companion object {
 		const val FLICKR_FEED = "extra.flicker.FEED"

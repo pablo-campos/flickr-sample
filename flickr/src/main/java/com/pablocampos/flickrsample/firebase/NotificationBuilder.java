@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.preference.PreferenceManager;
 
 import com.pablocampos.flickrsample.R;
@@ -64,11 +63,6 @@ public class NotificationBuilder {
 			int ledColor = 0;
 			int icon = R.drawable.ic_launcher_foreground;
 
-			//For OS levels 21 and greater, use transparent notification icon.
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-				//icon = com.malauzai.R.drawable.app_alert;
-			}
-
 			if (isPushSoundEnabled) {
 				notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 			}
@@ -76,7 +70,7 @@ public class NotificationBuilder {
 				vibratePattern = new long[] { 0, 500, 500 };
 			}
 
-			PendingIntent pendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, intent, 0);
+			PendingIntent pendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, intent, PendingIntent.FLAG_IMMUTABLE);
 			final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
 
 			Notification notification = builder.setContentIntent(pendingIntent).

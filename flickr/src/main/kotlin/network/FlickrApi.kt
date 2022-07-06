@@ -1,8 +1,8 @@
 package network
 
 import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 
-import com.readystatesoftware.chuck.ChuckInterceptor
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -21,7 +21,7 @@ object FlickrApi {
 		if (retrofit == null) {
 
 			val client = OkHttpClient.Builder()
-					.addInterceptor(ChuckInterceptor(context))
+					.addInterceptor(ChuckerInterceptor(context))
 					.build()
 
 			retrofit = retrofit2.Retrofit.Builder()

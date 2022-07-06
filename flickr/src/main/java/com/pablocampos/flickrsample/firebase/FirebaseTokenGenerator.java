@@ -3,7 +3,7 @@ package com.pablocampos.flickrsample.firebase;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class FirebaseTokenGenerator extends FirebaseMessagingService {
@@ -20,7 +20,7 @@ public class FirebaseTokenGenerator extends FirebaseMessagingService {
 
 
 	private void generateToken() {
-		FirebaseInstanceId.getInstance().getInstanceId()
+		FirebaseMessaging.getInstance().getToken()
 				.addOnCompleteListener(task -> {
 					if (!task.isSuccessful()) {
 						Log.w(FCMTOKEN, "getInstanceId failed", task.getException());
@@ -28,7 +28,7 @@ public class FirebaseTokenGenerator extends FirebaseMessagingService {
 					}
 
 					// Get and save new Instance ID token
-					saveGeneratedToken(task.getResult().getToken());
+					saveGeneratedToken(task.getResult());
 				});
 	}
 

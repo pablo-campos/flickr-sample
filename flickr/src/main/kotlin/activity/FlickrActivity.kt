@@ -134,9 +134,10 @@ class FlickrActivity : AppCompatActivity() {
 				DataWrapper.Status.LOADING -> swipeRefreshLayout.isRefreshing = true
 				DataWrapper.Status.ERROR -> {
 					swipeRefreshLayout.isRefreshing = false
-					Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, Snackbar.LENGTH_SHORT)
+					Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, Snackbar.LENGTH_SHORT).show()
 				}
-			}
+                else -> {}
+            }
 		})
 	}
 
@@ -151,7 +152,7 @@ class FlickrActivity : AppCompatActivity() {
 		val resultCode = apiAvailability.isGooglePlayServicesAvailable(this)
 		if (resultCode != ConnectionResult.SUCCESS) {
 			if (apiAvailability.isUserResolvableError(resultCode)) {
-				apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST).show()
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)?.show()
 			} else {
 				Log.i("Flickr App", "This device is not supported.")
 
