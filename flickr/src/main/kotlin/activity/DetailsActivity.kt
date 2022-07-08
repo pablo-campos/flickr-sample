@@ -19,6 +19,9 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import com.pablocampos.flickrsample.R
 import model.FlickrFeed
 import org.apache.commons.text.WordUtils
@@ -40,6 +43,12 @@ class DetailsActivity : AppCompatActivity() {
 	private lateinit var firebaseLabelImage: TextView
 	private lateinit var firebaseLabelImageValue: TextView
 	private lateinit var feedTagsLabel: TextView
+
+
+
+    companion object {
+        const val FLICKR_FEED = "extra.flicker.FEED"
+    }
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,7 +117,7 @@ class DetailsActivity : AppCompatActivity() {
 						e.printStackTrace()
 					}
 
-					val uri = Uri.parse("http://www.google.com/#q=" + escapedQuery!!)
+					val uri = Uri.parse("http://www.google.com/search?q=" + escapedQuery!!)
 					val intent = Intent(Intent.ACTION_VIEW, uri)
 					startActivity(intent)
 				}
@@ -179,95 +188,121 @@ class DetailsActivity : AppCompatActivity() {
 	 */
 	fun processFirebaseTextRecognizer(bitmap: Bitmap) {
 
-       /* lateinit var functions: FirebaseFunctions
-        functions = Firebase.functions
-        
-		val image = FirebaseVisionImage.fromBitmap(bitmap)
+        // Create json request to cloud vision
+        val request = JsonObject()
 
-		// Text Recognizer
-		val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
-		detector.processImage(image)
-				.addOnSuccessListener { firebaseVisionText ->
+        // Add image to request
+        val image = JsonObject()
+        image.add("content", JsonPrimitive(Utils.base64Encoder(Utils.scaleBitmapDown(bitmap, 640))))
+        request.add("image", image)
 
-					// Task completed successfully
-					if (firebaseVisionText.text == null || firebaseVisionText.text.isEmpty()) {
-						firebaseTextRecognizerValue.text = resources.getString(R.string.firebase_no_results)
-						processFirebaseImageLabeler(bitmap)
-					} else {
-						firebaseTextRecognizerValue.text = firebaseVisionText.text
-						processFirebaseImageLabeler(bitmap)
-					}
-				}
-				.addOnFailureListener {
-					// Task failed with an exception
-					firebaseTextRecognizerValue.text = resources.getString(R.string.firebase_server_error)
-					processFirebaseImageLabeler(bitmap)
-				}*/
+        // Add features to the request
+        val feature = JsonObject()
+        feature.add("type", JsonPrimitive("TEXT_DETECTION"))
 
-        processFirebaseImageLabeler(bitmap)
+        val features = JsonArray()
+        features.add(feature)
+        request.add("features", features)
+
+        Utils.annotateImage(request.toString())
+            .addOnCompleteListener { task ->
+
+                if (!task.isSuccessful) {
+
+                    // Task failed with an exception
+                    firebaseTextRecognizerValue.text = resources.getString(R.string.firebase_server_error)
+                    processFirebaseImageLabeler(bitmap)        // Proceed with image label detection
+
+                } else {
+
+                    // Task completed successfully
+                    val annotation = task.result!!.asJsonArray[0].asJsonObject["fullTextAnnotation"].asJsonObject
+                    for (page in annotation["pages"].asJsonArray) {
+                        var pageText = ""
+                        for (block in page.asJsonObject["blocks"].asJsonArray) {
+                            var blockText = ""
+                            for (para in block.asJsonObject["paragraphs"].asJsonArray) {
+                                var paraText = ""
+                                for (word in para.asJsonObject["words"].asJsonArray) {
+                                    var wordText = ""
+                                    for (symbol in word.asJsonObject["symbols"].asJsonArray) {
+                                        wordText += symbol.asJsonObject["text"].asString
+                                        System.out.format("Symbol text: %s (confidence: %f)%n",
+                                            symbol.asJsonObject["text"].asString, symbol.asJsonObject["confidence"].asFloat)
+                                    }
+                                    System.out.format("Word text: %s (confidence: %f)%n%n", wordText,
+                                        word.asJsonObject["confidence"].asFloat)
+                                    System.out.format("Word bounding box: %s%n", word.asJsonObject["boundingBox"])
+                                    paraText = String.format("%s%s ", paraText, wordText)
+                                }
+                                System.out.format("%nParagraph: %n%s%n", paraText)
+                                System.out.format("Paragraph bounding box: %s%n", para.asJsonObject["boundingBox"])
+                                System.out.format("Paragraph Confidence: %f%n", para.asJsonObject["confidence"].asFloat)
+                                blockText += paraText
+                            }
+                            pageText += blockText
+                        }
+                    }
+
+                    firebaseTextRecognizerValue.text = "Add something here..."
+                    processFirebaseImageLabeler(bitmap)     // Proceed with image label detection
+                }
+            }
 	}
 
 
 	/**
 	 * ML Kit APIs, we apply "Image Labeler" based on the Bitmap downloaded via Glide.
 	 */
-	fun processFirebaseImageLabeler(bitmap: Bitmap) {
+    private fun processFirebaseImageLabeler(bitmap: Bitmap) {
 
-		/*val image = FirebaseVisionImage.fromBitmap(bitmap)
+        // Create json request to cloud vision
+        val request = JsonObject()
 
-		// Image Labeler
-		val labeler = FirebaseVision.getInstance().onDeviceImageLabeler
-		labeler.processImage(image)
-				.addOnSuccessListener { labels ->
+        // Add image to request
+        val image = JsonObject()
+        image.add("content", JsonPrimitive(Utils.base64Encoder(Utils.scaleBitmapDown(bitmap, 640))))
+        request.add("image", image)
 
-					// Task completed successfully
-					var description = ""
-					for (i in labels.indices) {
+        // Add features to the request
+        val feature = JsonObject()
+        feature.add("maxResults", JsonPrimitive(5))
+        feature.add("type", JsonPrimitive("LABEL_DETECTION"))
 
-						val label = labels[i]
-						val text = label.text
-						val confidence = label.confidence
-						description += if (i == 0) {
-							(text + " - " + confidence * 100 + "%")
-						} else {
-							("\n" + text + " - " + confidence * 100 + "%")
-						}
-					}
+        val features = JsonArray()
+        features.add(feature)
+        request.add("features", features)
 
-					firebaseLabelImageValue.text = description
-					supportStartPostponedEnterTransition()        // Proceed with enter transition
-				}
-				.addOnFailureListener {
-					// Task failed with an exception
-					firebaseLabelImageValue.text = resources.getString(R.string.firebase_server_error)
-					supportStartPostponedEnterTransition()        // Proceed with enter transition
-				}*/
+        Utils.annotateImage(request.toString())
+            .addOnCompleteListener { task ->
 
-        supportStartPostponedEnterTransition()        // Proceed with enter transition
-	}
+                if (!task.isSuccessful) {
 
-    private fun scaleBitmapDown(bitmap: Bitmap, maxDimension: Int): Bitmap {
-        val originalWidth = bitmap.width
-        val originalHeight = bitmap.height
-        var resizedWidth = maxDimension
-        var resizedHeight = maxDimension
-        if (originalHeight > originalWidth) {
-            resizedHeight = maxDimension
-            resizedWidth =
-                (resizedHeight * originalWidth.toFloat() / originalHeight.toFloat()).toInt()
-        } else if (originalWidth > originalHeight) {
-            resizedWidth = maxDimension
-            resizedHeight =
-                (resizedWidth * originalHeight.toFloat() / originalWidth.toFloat()).toInt()
-        } else if (originalHeight == originalWidth) {
-            resizedHeight = maxDimension
-            resizedWidth = maxDimension
-        }
-        return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false)
-    }
+                    // Task failed with an exception
+                    firebaseLabelImageValue.text = resources.getString(R.string.firebase_server_error)
+                    supportStartPostponedEnterTransition()        // Proceed with enter transition
 
-	companion object {
-		const val FLICKR_FEED = "extra.flicker.FEED"
+                } else {
+
+                    // Task completed successfully
+                    var description = ""
+                    for (label in task.result!!.asJsonArray[0].asJsonObject["labelAnnotations"].asJsonArray) {
+                        val labelObj = label.asJsonObject
+                        val text = labelObj["description"]
+                        val entityId = labelObj["mid"]
+                        val confidence = labelObj["score"]
+
+                        description += if (description.isEmpty()) {
+                            (text.toString() + " - " + confidence.asInt * 100 + "%")
+                        } else {
+                            ("\n" + text + " - " + confidence.asInt * 100 + "%")
+                        }
+                    }
+
+                    firebaseLabelImageValue.text = description
+                    supportStartPostponedEnterTransition()        // Proceed with enter transition
+                }
+            }
 	}
 
 
