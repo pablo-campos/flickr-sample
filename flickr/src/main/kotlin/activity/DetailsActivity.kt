@@ -1,5 +1,6 @@
 package activity
 
+import android.R.attr
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -22,12 +23,18 @@ import com.google.android.material.chip.ChipGroup
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.label.ImageLabeling
+import com.google.mlkit.vision.label.defaults.ImageLabelerOptions
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.pablocampos.flickrsample.R
 import model.FlickrFeed
 import org.apache.commons.text.WordUtils
 import utils.Utils
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
+
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -188,65 +195,21 @@ class DetailsActivity : AppCompatActivity() {
 	 */
 	fun processFirebaseTextRecognizer(bitmap: Bitmap) {
 
-        // Create json request to cloud vision
-        val request = JsonObject()
+        val image = InputImage.fromBitmap(bitmap, 0)
 
-        // Add image to request
-        val image = JsonObject()
-        image.add("content", JsonPrimitive(Utils.base64Encoder(Utils.scaleBitmapDown(bitmap, 640))))
-        request.add("image", image)
+        // Text Recognizer
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-        // Add features to the request
-        val feature = JsonObject()
-        feature.add("type", JsonPrimitive("TEXT_DETECTION"))
-
-        val features = JsonArray()
-        features.add(feature)
-        request.add("features", features)
-
-        Utils.annotateImage(request.toString())
-            .addOnCompleteListener { task ->
-
-                if (!task.isSuccessful) {
-
-                    // Task failed with an exception
-                    firebaseTextRecognizerValue.text = resources.getString(R.string.firebase_server_error)
-                    processFirebaseImageLabeler(bitmap)        // Proceed with image label detection
-
-                } else {
-
-                    // Task completed successfully
-                    val annotation = task.result!!.asJsonArray[0].asJsonObject["fullTextAnnotation"].asJsonObject
-                    for (page in annotation["pages"].asJsonArray) {
-                        var pageText = ""
-                        for (block in page.asJsonObject["blocks"].asJsonArray) {
-                            var blockText = ""
-                            for (para in block.asJsonObject["paragraphs"].asJsonArray) {
-                                var paraText = ""
-                                for (word in para.asJsonObject["words"].asJsonArray) {
-                                    var wordText = ""
-                                    for (symbol in word.asJsonObject["symbols"].asJsonArray) {
-                                        wordText += symbol.asJsonObject["text"].asString
-                                        System.out.format("Symbol text: %s (confidence: %f)%n",
-                                            symbol.asJsonObject["text"].asString, symbol.asJsonObject["confidence"].asFloat)
-                                    }
-                                    System.out.format("Word text: %s (confidence: %f)%n%n", wordText,
-                                        word.asJsonObject["confidence"].asFloat)
-                                    System.out.format("Word bounding box: %s%n", word.asJsonObject["boundingBox"])
-                                    paraText = String.format("%s%s ", paraText, wordText)
-                                }
-                                System.out.format("%nParagraph: %n%s%n", paraText)
-                                System.out.format("Paragraph bounding box: %s%n", para.asJsonObject["boundingBox"])
-                                System.out.format("Paragraph Confidence: %f%n", para.asJsonObject["confidence"].asFloat)
-                                blockText += paraText
-                            }
-                            pageText += blockText
-                        }
-                    }
-
-                    firebaseTextRecognizerValue.text = "Add something here..."
-                    processFirebaseImageLabeler(bitmap)     // Proceed with image label detection
-                }
+        val result = recognizer.process(image)
+            .addOnSuccessListener { visionText ->
+                // Task completed successfully
+                firebaseTextRecognizerValue.text = visionText.text
+                processFirebaseImageLabeler(bitmap)        // Proceed with image label detection
+            }
+            .addOnFailureListener { e ->
+                // Task failed with an exception
+                firebaseTextRecognizerValue.text = resources.getString(R.string.firebase_server_error)
+                processFirebaseImageLabeler(bitmap)        // Proceed with image label detection
             }
 	}
 
@@ -256,52 +219,35 @@ class DetailsActivity : AppCompatActivity() {
 	 */
     private fun processFirebaseImageLabeler(bitmap: Bitmap) {
 
-        // Create json request to cloud vision
-        val request = JsonObject()
+        val image = InputImage.fromBitmap(bitmap, 0)
 
-        // Add image to request
-        val image = JsonObject()
-        image.add("content", JsonPrimitive(Utils.base64Encoder(Utils.scaleBitmapDown(bitmap, 640))))
-        request.add("image", image)
+        // Image Labeler
+        val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
 
-        // Add features to the request
-        val feature = JsonObject()
-        feature.add("maxResults", JsonPrimitive(5))
-        feature.add("type", JsonPrimitive("LABEL_DETECTION"))
+        labeler.process(image)
+            .addOnSuccessListener { labels ->
 
-        val features = JsonArray()
-        features.add(feature)
-        request.add("features", features)
+                // Task completed successfully
+                var description = ""
+                for (i in labels.indices) {
 
-        Utils.annotateImage(request.toString())
-            .addOnCompleteListener { task ->
-
-                if (!task.isSuccessful) {
-
-                    // Task failed with an exception
-                    firebaseLabelImageValue.text = resources.getString(R.string.firebase_server_error)
-                    supportStartPostponedEnterTransition()        // Proceed with enter transition
-
-                } else {
-
-                    // Task completed successfully
-                    var description = ""
-                    for (label in task.result!!.asJsonArray[0].asJsonObject["labelAnnotations"].asJsonArray) {
-                        val labelObj = label.asJsonObject
-                        val text = labelObj["description"]
-                        val entityId = labelObj["mid"]
-                        val confidence = labelObj["score"]
-
-                        description += if (description.isEmpty()) {
-                            (text.toString() + " - " + confidence.asInt * 100 + "%")
-                        } else {
-                            ("\n" + text + " - " + confidence.asInt * 100 + "%")
-                        }
+                    val label = labels[i]
+                    val text = label.text
+                    val confidence = label.confidence
+                    description += if (i == 0) {
+                        (text + " - " + confidence * 100 + "%")
+                    } else {
+                        ("\n" + text + " - " + confidence * 100 + "%")
                     }
-
-                    firebaseLabelImageValue.text = description
-                    supportStartPostponedEnterTransition()        // Proceed with enter transition
                 }
+
+                firebaseLabelImageValue.text = description
+                supportStartPostponedEnterTransition()        // Proceed with enter transition
+            }
+            .addOnFailureListener {
+                // Task failed with an exception
+                firebaseLabelImageValue.text = resources.getString(R.string.firebase_server_error)
+                supportStartPostponedEnterTransition()        // Proceed with enter transition
             }
 	}
 

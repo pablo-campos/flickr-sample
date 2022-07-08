@@ -31,7 +31,6 @@ android {
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 			zipAlignEnabled true
 			shrinkResources false
-			// Can't be enabled b/c we use Resources#getIdentifier to look-up resources dynamically by name which confuses this tool
 		}
 
 		debug {
@@ -91,7 +90,8 @@ dependencies {
 	androidTestImplementation 'androidx.test:rules:1.4.1-alpha07'
 
 	// ML Kit Android libraries
-	implementation 'com.google.firebase:firebase-functions'
+	implementation 'com.google.android.gms:play-services-mlkit-image-labeling:16.0.7'	// Use this dependency to use dynamically downloaded model in Google Play Service
+	implementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.0'
 
 	// Import the Firebase BoM
 	implementation platform('com.google.firebase:firebase-bom:30.2.0')

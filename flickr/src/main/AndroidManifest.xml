@@ -33,7 +33,7 @@
 
 		<meta-data
 			android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-			android:value="ocr,label" />
+			android:value="ocr,ica" />
 
 	</application>
 
